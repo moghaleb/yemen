@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
 
-export async function registerUser(formData: FormData) {
+export async function registerUser(prevState: any, formData: FormData) {
     const name = (formData.get('name') as string).trim();
     const email = (formData.get('email') as string).trim();
     const password = (formData.get('password') as string).trim();

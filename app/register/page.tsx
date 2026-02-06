@@ -3,7 +3,7 @@
 import { registerUser } from '@/app/actions/auth';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useFormStatus } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 
 function SubmitButton() {
     const { pending } = useFormStatus();
@@ -15,7 +15,13 @@ function SubmitButton() {
     );
 }
 
+const initialState = {
+    message: '',
+}
+
 export default function RegisterPage() {
+    const [state, formAction] = useFormState(registerUser, initialState)
+
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
             <div className="w-full max-w-md space-y-8 bg-white p-8 shadow rounded-lg">
@@ -25,7 +31,7 @@ export default function RegisterPage() {
                         سجل الآن للوصول إلى التوصيات والأخبار الحصرية
                     </p>
                 </div>
-                <form action={registerUser} className="mt-8 space-y-6">
+                <form action={formAction} className="mt-8 space-y-6">
                     <div className="-space-y-px rounded-md shadow-sm">
                         <div className="mb-4">
                             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">الاسم الكامل</label>
@@ -63,6 +69,10 @@ export default function RegisterPage() {
                             />
                         </div>
                     </div>
+
+                    {state?.message && (
+                        <p className="text-sm text-red-500 text-center">{state.message}</p>
+                    )}
 
                     <SubmitButton />
 
