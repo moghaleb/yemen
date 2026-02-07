@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Check, Star, Zap } from "lucide-react"; // Import icons
-import { requestSubscription } from "@/app/actions/subscription";
+import SubscribeButton from "@/components/features/SubscribeButton";
 import Link from "next/link"; // For "Contact Us" or similar if needed
 
 export default async function SubscribePage() {
@@ -82,21 +82,19 @@ export default async function SubscribePage() {
                                 باقتك الحالية ✅
                             </Button>
                         ) : (
-                            <form action={requestSubscription}>
-                                <input type="hidden" name="tier" value="BASIC" />
-                                <Button
-                                    type="submit"
-                                    className="w-full bg-blue-600 hover:bg-blue-700"
-                                    disabled={pendingRequest?.requestedTier === 'BASIC'}
-                                >
-                                    {pendingRequest?.requestedTier === 'BASIC' ? 'تم إرسال الطلب ⏳' : 'طلب الاشتراك'}
-                                </Button>
-                            </form>
+                            <SubscribeButton
+                                tier="BASIC"
+                                pendingRequest={user?.requests?.[0]}
+                                className="w-full bg-blue-600 hover:bg-blue-700"
+                            >
+                                طلب الاشتراك
+                            </SubscribeButton>
                         )}
                     </div>
 
                     {/* VIP Plan */}
                     <div className="bg-gray-900 rounded-2xl shadow-xl border border-gray-800 p-8 flex flex-col text-white">
+                        {/* ... existing VIP header content ... */}
                         <div className="mb-4">
                             <span className="text-sm font-semibold text-amber-400 uppercase tracking-wider">VIP</span>
                             <div className="mt-2 flex items-baseline gap-1">
@@ -127,17 +125,14 @@ export default async function SubscribePage() {
                                 باقتك الحالية 👑
                             </Button>
                         ) : (
-                            <form action={requestSubscription}>
-                                <input type="hidden" name="tier" value="VIP" />
-                                <Button
-                                    type="submit"
-                                    variant="secondary"
-                                    className="w-full bg-amber-500 hover:bg-amber-600 text-white border-none"
-                                    disabled={pendingRequest?.requestedTier === 'VIP'}
-                                >
-                                    {pendingRequest?.requestedTier === 'VIP' ? 'تم إرسال الطلب ⏳' : 'طلب اشتراك VIP'}
-                                </Button>
-                            </form>
+                            <SubscribeButton
+                                tier="VIP"
+                                pendingRequest={user?.requests?.[0]}
+                                variant="secondary"
+                                className="w-full bg-amber-500 hover:bg-amber-600 text-white border-none"
+                            >
+                                طلب اشتراك VIP
+                            </SubscribeButton>
                         )}
                     </div>
                 </div>
