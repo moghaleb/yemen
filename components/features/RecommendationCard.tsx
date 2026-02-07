@@ -12,6 +12,7 @@ interface RecommendationCardProps {
     risk: "Low" | "Medium" | "High";
     date: string;
     isLocked?: boolean;
+    onShare?: () => void;
 }
 
 export default function RecommendationCard({
