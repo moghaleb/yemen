@@ -16,6 +16,44 @@ async function requireAdmin() {
 
 // --- Recommendations ---
 
+import webpush from 'web-push';
+
+// Configure web-push
+webpush.setVapidDetails(
+    'mailto:moghaleb@example.com',
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+    process.env.VAPID_PRIVATE_KEY!
+);
+
+async function sendNotificationToAll(payload: any) {
+    try {
+        const subscriptions = await prisma.pushSubscription.findMany();
+        console.log(`Sending notification to ${subscriptions.length} subscribers`);
+
+        const notifications = subscriptions.map(sub => {
+            return webpush.sendNotification({
+                endpoint: sub.endpoint,
+                keys: {
+                    p256dh: sub.p256dh,
+                    auth: sub.auth
+                }
+            }, JSON.stringify(payload)).catch(err => {
+                console.error("Error sending to subscription", err);
+                if (err.statusCode === 410 || err.statusCode === 404) {
+                    // Subscription expired or invalid, delete it
+                    return prisma.pushSubscription.delete({ where: { id: sub.id } });
+                }
+            });
+        });
+
+        await Promise.all(notifications);
+    } catch (error) {
+        console.error("Error sending notifications", error);
+    }
+}
+
+// ... existing code ...
+
 export async function createRecommendation(formData: FormData) {
     await requireAdmin();
 
@@ -27,7 +65,7 @@ export async function createRecommendation(formData: FormData) {
     const rationale = formData.get("rationale") as string;
     const minTier = formData.get("minTier") as string || "FREE";
 
-    await prisma.recommendation.create({
+    const recommendation = await prisma.recommendation.create({
         data: {
             type,
             action,
@@ -38,6 +76,13 @@ export async function createRecommendation(formData: FormData) {
             minTier,
             status: "ACTIVE",
         },
+    });
+
+    // Send Notification
+    await sendNotificationToAll({
+        title: `توصية جديدة: ${type} ${action}`,
+        body: `السعر: ${price} - الهدف: ${takeProfit}`,
+        url: '/'
     });
 
     revalidatePath("/");
@@ -58,8 +103,6 @@ export async function deleteRecommendation(id: string) {
     revalidatePath("/");
 }
 
-// --- News ---
-
 export async function createNews(formData: FormData) {
     await requireAdmin();
 
@@ -68,7 +111,7 @@ export async function createNews(formData: FormData) {
     const impact = formData.get("impact") as string;
     const source = formData.get("source") as string;
 
-    await prisma.newsItem.create({
+    const news = await prisma.newsItem.create({
         data: {
             title,
             summary,
@@ -77,6 +120,13 @@ export async function createNews(formData: FormData) {
             category: formData.get("category") as string || "GENERAL",
             minTier: formData.get("minTier") as string || "FREE",
         },
+    });
+
+    // Send Notification
+    await sendNotificationToAll({
+        title: `خبر عاجل: ${title}`,
+        body: summary.substring(0, 100) + '...',
+        url: '/#news'
     });
 
     revalidatePath("/");

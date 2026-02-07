@@ -3,7 +3,8 @@
 import { registerUser } from '@/app/actions/auth';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 
 function SubmitButton() {
     const { pending } = useFormStatus();
@@ -20,7 +21,7 @@ const initialState = {
 }
 
 export default function RegisterPage() {
-    const [state, formAction] = useFormState(registerUser, initialState)
+    const [state, formAction] = useActionState(registerUser, initialState)
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">

@@ -69,14 +69,14 @@ export default async function Home() {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
-            <span className="text-foreground">قوة </span>
-            <span className="text-gradient-cyan">الذكاء الاصطناعي </span>
+            <span className="text-foreground">أقوى </span>
+            <span className="text-gradient-cyan">التوصيات </span>
             <br />
             <span className="text-gradient-gold">بين يديك</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-            تداول بثقة وتحكم بقراراتك مع إشارات دقيقة مدعومة بالذكاء الاصطناعي، وتنبيهات لحظية على جوالك للذهب والأسهم.
+            تداول بثقة وتحكم بقراراتك مع إشارات دقيقة وتنبيهات لحظية على جوالك للذهب والأسهم.
           </p>
 
           <div className="flex items-center justify-center gap-4">
