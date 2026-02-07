@@ -4,10 +4,12 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function requestSubscription(tier: string) {
+export async function requestSubscription(formData: FormData) {
+    const tier = formData.get("tier") as string;
+
     const session = await auth();
     if (!session?.user?.email) {
-        return { success: false, message: "يجب عليك تسجيل الدخول أولاً" };
+        return;
     }
 
     const user = await prisma.user.findUnique({
@@ -15,7 +17,7 @@ export async function requestSubscription(tier: string) {
     });
 
     if (!user) {
-        return { success: false, message: "المستخدم غير موجود" };
+        return;
     }
 
     // Check for existing pending request
@@ -27,7 +29,7 @@ export async function requestSubscription(tier: string) {
     });
 
     if (existingRequest) {
-        return { success: false, message: "لديك طلب اشتراك قيد المراجعة بالفعل" };
+        return;
     }
 
     await prisma.subscriptionRequest.create({
@@ -39,5 +41,4 @@ export async function requestSubscription(tier: string) {
     });
 
     revalidatePath('/');
-    return { success: true, message: "تم إرسال طلب الاشتراك بنجاح سيتم التواصل معك قريباً" };
 }
