@@ -59,42 +59,41 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="relative w-full py-12 md:py-20 overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/10 rounded-[100%] blur-[100px] -z-10 animate-pulse-slow" />
-        <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-cyan-500/5 rounded-[100%] blur-[120px] -z-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[#D4AF37]/10 rounded-[100%] blur-[100px] -z-10 animate-pulse-slow" />
+        <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-[#0F1C2E]/20 rounded-[100%] blur-[120px] -z-10" />
 
         <div className="container px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-primary/30 text-primary text-xs font-bold mb-6 animate-float">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-[#D4AF37]/30 text-[#D4AF37] text-xs font-bold mb-6 animate-float">
             <Zap className="w-3 h-3 fill-current" />
-            <span>الجيل القادم من التداول</span>
+            <span>رادار الذهب - Golden Radar</span>
           </div>
 
           <h1 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
-            <span className="text-foreground">أقوى </span>
-            <span className="text-gradient-cyan">التوصيات </span>
+            <span className="text-foreground">نرصد السوق... </span>
             <br />
-            <span className="text-gradient-gold">بين يديك</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F7E7CE]">لتتخذ القرار</span>
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-            تداول بثقة وتحكم بقراراتك مع إشارات دقيقة وتنبيهات لحظية على جوالك للذهب والأسهم.
+            تداول بثقة وتحكّم بقراراتك مع إشارات دقيقة وتنبيهات لحظية مبنية على تحليل فني احترافي.
           </p>
 
           <div className="flex items-center justify-center gap-4">
             {session?.user ? (
               <Link href="/gold">
-                <Button variant="glow" size="lg" className="rounded-full px-8">
+                <Button variant="glow" size="lg" className="rounded-full px-8 bg-[#D4AF37] text-black hover:bg-[#b08d2b]">
                   لوحة الذهب
                 </Button>
               </Link>
             ) : (
               <Link href="/register">
-                <Button variant="glow" size="lg" className="rounded-full px-8">
-                  ابـدأ الآن مجاناً
+                <Button variant="glow" size="lg" className="rounded-full px-8 bg-[#D4AF37] text-black hover:bg-[#b08d2b]">
+                  ابدأ الآن مجاناً
                 </Button>
               </Link>
             )}
             <Link href="/education/articles">
-              <Button variant="glass" size="lg" className="rounded-full px-8">
+              <Button variant="glass" size="lg" className="rounded-full px-8 border-[#D4AF37]/30 hover:bg-[#D4AF37]/10">
                 تعلم المزيد
               </Button>
             </Link>

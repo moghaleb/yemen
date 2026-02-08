@@ -22,11 +22,11 @@ export default function Header({ user }: HeaderProps) {
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2">
-                    <div className="relative w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)]">
-                        <span className="text-black font-bold text-lg">Y</span>
+                    <div className="relative w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#8a7018] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)]">
+                        <span className="text-black font-bold text-lg">G</span>
                     </div>
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-shine">
-                        YemMarket
+                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-white to-[#D4AF37] bg-[length:200%_auto] animate-shine">
+                        Golden Radar
                     </span>
                 </Link>
 

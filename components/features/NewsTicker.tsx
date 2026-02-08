@@ -18,7 +18,7 @@ export default function NewsTicker() {
     return (
         <div className="w-full overflow-hidden py-2 bg-transparent">
             <div className="container flex items-center">
-                <div className="bg-red-600/20 border border-red-500/50 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full mr-3 whitespace-nowrap animate-pulse">
+                <div className="bg-[#D4AF37]/20 border border-[#D4AF37]/50 text-[#D4AF37] text-[10px] font-bold px-2 py-0.5 rounded-full mr-3 whitespace-nowrap animate-pulse">
                     عاجل
                 </div>
                 <div className="flex-1 overflow-hidden relative h-6">

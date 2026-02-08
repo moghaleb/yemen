@@ -43,15 +43,15 @@ export default function RecommendationCard({
             borderLeftColor: type === "BUY" ? "#10b981" : type === "SELL" ? "#ef4444" : "#9ca3af"
         }}>
             {isLocked && (
-                <div className="absolute inset-0 z-20 backdrop-blur-md bg-background/50 flex flex-col items-center justify-center text-center p-6 border border-amber-500/20">
-                    <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center mb-3 animate-pulse">
-                        <AlertTriangle className="w-6 h-6 text-amber-500" />
+                <div className="absolute inset-0 z-20 backdrop-blur-md bg-[#0B0B0B]/80 flex flex-col items-center justify-center text-center p-6 border border-[#D4AF37]/20">
+                    <div className="w-12 h-12 rounded-full bg-[#D4AF37]/10 flex items-center justify-center mb-3 animate-pulse">
+                        <AlertTriangle className="w-6 h-6 text-[#D4AF37]" />
                     </div>
-                    <h3 className="text-lg font-bold text-foreground mb-1">توصية خاصة</h3>
-                    <p className="text-sm text-muted-foreground mb-4 max-w-[200px]">
+                    <h3 className="text-lg font-bold text-[#D4AF37] mb-1">توصية خاصة</h3>
+                    <p className="text-sm text-gray-400 mb-4 max-w-[200px]">
                         هذه التوصية متاحة للمشتركين فقط. رقي حسابك للوصول.
                     </p>
-                    <a href="/account" className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-black font-bold rounded-lg hover:shadow-lg hover:shadow-amber-500/20 transition-all text-sm">
+                    <a href="/account" className="px-4 py-2 bg-[#D4AF37] hover:bg-[#b08d2b] text-black font-bold rounded-lg transition-all text-sm shadow-[0_0_15px_rgba(212,175,55,0.3)]">
                         ترقية الاشتراك
                     </a>
                 </div>
@@ -72,10 +72,10 @@ export default function RecommendationCard({
                 {!isLocked && (
                     <button
                         onClick={onShare}
-                        className="p-2 rounded-full hover:bg-secondary transition-colors"
+                        className="p-2 rounded-full hover:bg-[#D4AF37]/10 transition-colors"
                         aria-label="Share on WhatsApp"
                     >
-                        <Share2 className="w-4 h-4 text-primary" />
+                        <Share2 className="w-4 h-4 text-[#D4AF37]" />
                     </button>
                 )}
             </CardHeader>

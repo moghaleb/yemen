@@ -11,9 +11,9 @@ const plans = [
         name: "باقة VIP",
         price: "100$",
         icon: Crown,
-        color: "text-amber-500",
-        bg: "bg-amber-500/10",
-        border: "border-amber-500/50"
+        color: "text-[#D4AF37]",
+        bg: "bg-[#D4AF37]/10",
+        border: "border-[#D4AF37]/50"
     },
     {
         id: "BASIC",

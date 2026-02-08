@@ -27,7 +27,7 @@ export default function BottomNav() {
                             key={item.href}
                             href={item.href}
                             className={`flex flex-col items-center justify-center p-2 rounded-lg transition-colors
-                 ${isActive ? "text-primary bg-primary/10" : "text-muted-foreground hover:bg-secondary/50"}
+                 ${isActive ? "text-[#D4AF37] bg-[#D4AF37]/10" : "text-muted-foreground hover:bg-secondary/50"}
                `}
                         >
                             <Icon className="w-5 h-5 mb-1" />

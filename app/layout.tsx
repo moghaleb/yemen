@@ -13,8 +13,9 @@ const tajawal = Tajawal({
 });
 
 export const metadata: Metadata = {
-  title: "Financial Market Insights",
-  description: "Your daily source for market summaries, gold & stock recommendations, and financial education.",
+  title: "رادار الذهب | Golden Radar",
+  description: "منصة احترافية لتحليل وتوصيات وأخبار الذهب والفضة مع إشارات لحظية تساعدك على اتخاذ قرارات تداول أدق. عينك الذكية على الذهب.",
+  keywords: "ذهب, فضة, تداول, توصيات, تحليل فني, أخبار السوق, استثمار",
 };
 
 export default async function RootLayout({

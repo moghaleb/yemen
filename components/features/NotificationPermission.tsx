@@ -85,7 +85,12 @@ export default function NotificationPermission() {
     }
 
     return (
-        <Button variant="outline" size="sm" onClick={subscribeToPush} className="gap-2">
+        <Button
+            variant="outline"
+            size="sm"
+            onClick={subscribeToPush}
+            className="gap-2 border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-black transition-colors"
+        >
             <Bell className="w-4 h-4" />
             تفعيل الإشعارات
         </Button>
