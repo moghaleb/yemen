@@ -21,13 +21,24 @@ export default function Header({ user }: HeaderProps) {
         <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 glass border-b border-white/10">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2">
-                    <div className="relative w-8 h-8 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#8a7018] flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.6)]">
-                        <span className="text-black font-bold text-lg">G</span>
+                <Link href="/" className="flex items-center gap-3 group">
+                    <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#000000] p-[1px] shadow-[0_0_20px_rgba(212,175,55,0.4)] group-hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-300">
+                        <img
+                            src="/logo.png"
+                            alt="Golden Radar Logo"
+                            className="w-full h-full object-cover rounded-full"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.parentElement!.innerHTML = '<span class="text-[#D4AF37] font-bold text-lg flex items-center justify-center w-full h-full">G</span>';
+                            }}
+                        />
                     </div>
-                    <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-white to-[#D4AF37] bg-[length:200%_auto] animate-shine">
-                        Golden Radar
-                    </span>
+                    <div className="flex flex-col">
+                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F7E7CE] to-[#D4AF37] bg-[length:200%_auto] animate-shine leading-none">
+                            رادار الذهب
+                        </span>
+                        <span className="text-[10px] text-muted-foreground tracking-wider uppercase">Golden Radar</span>
+                    </div>
                 </Link>
 
                 {/* Actions */}

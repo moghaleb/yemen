@@ -1,0 +1,21 @@
+{
+    "name": "Golden Radar",
+    "short_name": "Golden Radar",
+    "description": "منصة احترافية لتحليل وتوصيات الذهب",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0B0B0B",
+    "theme_color": "#D4AF37",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

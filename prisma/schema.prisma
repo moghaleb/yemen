@@ -18,6 +18,7 @@ model User {
   subscriptionExpiry DateTime?
   requests          SubscriptionRequest[]
   pushSubscriptions PushSubscription[]
+  sessionVersion    Int      @default(0)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }

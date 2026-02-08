@@ -39,7 +39,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     const passwordsMatch = await bcrypt.compare(password, user.password);
                     console.log('Password match:', passwordsMatch);
 
-                    if (passwordsMatch) return user;
+                    if (passwordsMatch) {
+                        // Increment session version to invalidate other sessions
+                        const updatedUser = await prisma.user.update({
+                            where: { id: user.id },
+                            data: { sessionVersion: { increment: 1 } },
+                        });
+                        return updatedUser;
+                    }
                 } else {
                     console.log('Validation failed:', parsedCredentials.error);
                 }
@@ -54,13 +61,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             if (user) {
                 console.log('JWT Callback: User logged in', user.email);
                 token.role = user.role;
+                // @ts-ignore
+                token.sessionVersion = user.sessionVersion;
             }
             return token;
         },
         async session({ session, token }) {
-            console.log('Session Callback: Creating session for', session.user.email);
-            if (token && session.user) {
-                session.user.role = token.role as string;
+            // console.log('Session Callback: Checking session for', session.user.email);
+            if (token && session.user && session.user.email) {
+                // Verify session version against DB to enforce single device login
+                try {
+                    const freshUser = await prisma.user.findUnique({
+                        where: { email: session.user.email },
+                        select: { sessionVersion: true, role: true }
+                    });
+
+                    // @ts-ignore
+                    if (!freshUser || freshUser.sessionVersion !== token.sessionVersion) {
+                        console.log("Session Invalidated: Version mismatch");
+                        // Return empty session or trigger signout behavior
+                        // By returning null/modifying user, we can force logout
+                        // Next-auth types might be strict, so we'll invalidate the user object
+                        // @ts-ignore
+                        session.user = null; // This usually triggers unauthenticated state
+                        return session;
+                    }
+
+                    session.user.role = freshUser.role;
+                } catch (error) {
+                    console.error("Session verification failed:", error);
+                }
             }
             return session;
         },
