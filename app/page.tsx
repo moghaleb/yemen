@@ -31,6 +31,13 @@ export default async function Home() {
     orderBy: { publishedAt: "desc" },
   });
 
+  // Fetch breaking news for ticker
+  const breakingNews = await prisma.breakingNews.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: "desc" },
+    take: 10
+  });
+
   // Fetch fresh user data for permissions
   let userTier = 'FREE';
   if (session?.user?.email) {
@@ -107,7 +114,8 @@ export default async function Home() {
         <div className="space-y-4">
           {/* Glassy News Ticker */}
           <div className="glass rounded-xl overflow-hidden py-1">
-            <NewsTicker />
+            {/* @ts-ignore */}
+            <NewsTicker initialNews={latestNews} tickerItems={breakingNews} />
           </div>
         </div>
 
@@ -127,6 +135,27 @@ export default async function Home() {
               <div className="relative w-16 h-16 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
                 <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
                 <ArrowLeft className="w-8 h-8 text-amber-400" />
+              </div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Stocks Dashboard Card (Premium) */}
+        <Link href="/stocks" className="block transform hover:scale-[1.02] transition-all duration-300 group">
+          <div className="relative overflow-hidden rounded-3xl p-1 bg-gradient-to-br from-cyan-300 via-cyan-500 to-cyan-700 shadow-[0_0_40px_rgba(6,182,212,0.2)]">
+            <div className="absolute inset-0 bg-black/80 m-[1px] rounded-[23px] z-0" />
+            <div className="relative z-10 bg-gradient-to-br from-cyan-500/10 to-transparent p-6 rounded-[22px] flex items-center justify-between">
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500 text-black">PREMIUM</span>
+                  <h2 className="text-2xl font-bold text-cyan-500">لوحة الأسهم (Stocks)</h2>
+                </div>
+                <p className="text-gray-400 text-sm max-w-[200px] leading-relaxed">تحليل فني للأسهم • فرص استثمارية • متابعة لحظية للسوق</p>
+              </div>
+
+              <div className="relative w-16 h-16 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+                <div className="absolute inset-0 bg-cyan-500/20 blur-xl rounded-full" />
+                <BarChart3 className="w-8 h-8 text-cyan-400" />
               </div>
             </div>
           </div>
@@ -193,6 +222,12 @@ export default async function Home() {
                       <div className="mt-1 min-w-[4px] h-[4px] rounded-full bg-cyan-500" />
                       <div>
                         <div className="flex items-center gap-2">
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.category === 'GOLD' ? 'text-[#D4AF37] border-[#D4AF37]/30 bg-[#D4AF37]/10' :
+                            item.category === 'STOCK' ? 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10' :
+                              'text-gray-400 border-gray-500/30 bg-gray-500/10'
+                            }`}>
+                            {item.category === 'GOLD' ? 'ذهب' : item.category === 'STOCK' ? 'أسهم' : 'عام'}
+                          </span>
                           <p className="text-xs font-medium text-gray-200 line-clamp-2 leading-relaxed">{item.title}</p>
                           {/* @ts-ignore */}
                           {item.isLocked && <span className="text-[10px] bg-amber-500/20 text-amber-500 px-1 rounded">VIP</span>}

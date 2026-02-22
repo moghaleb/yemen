@@ -1,7 +1,7 @@
 {
-    "name": "Golden Radar",
-    "short_name": "Golden Radar",
-    "description": "منصة احترافية لتحليل وتوصيات الذهب",
+    "name": "رادار الذهب | Golden Radar",
+    "short_name": "رادار الذهب",
+    "description": "نرصد السوق… لتتخذ القرار. تحليلات وتوصيات الذهب والفضة لحظة بلحظة.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#0B0B0B",

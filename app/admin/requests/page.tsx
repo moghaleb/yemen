@@ -57,10 +57,12 @@ export default async function AdminRequestsPage() {
                     <table className="w-full text-right">
                         <thead className="bg-slate-50 border-b">
                             <tr>
-                                <th className="p-4 font-medium text-slate-500">المستخدم</th>
-                                <th className="p-4 font-medium text-slate-500">الباقة المطلوبة</th>
-                                <th className="p-4 font-medium text-slate-500">تاريخ الطلب</th>
-                                <th className="p-4 font-medium text-slate-500">الإجراء</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">المستخدم</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">الباقة المطلوبة</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">اسم المرسل</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">رقم الحوالة</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">تاريخ الطلب</th>
+                                <th className="p-4 font-medium text-slate-500 text-right">الإجراء</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y">
@@ -82,6 +84,12 @@ export default async function AdminRequestsPage() {
                                             }`}>
                                             {req.requestedTier}
                                         </span>
+                                    </td>
+                                    <td className="p-4 text-sm font-medium">
+                                        {req.senderName || <span className="text-slate-300 italic">غير متوفر</span>}
+                                    </td>
+                                    <td className="p-4 text-sm font-mono text-slate-500">
+                                        {req.transferNumber || <span className="text-slate-300 italic">---</span>}
                                     </td>
                                     <td className="p-4 text-sm text-slate-600">
                                         {new Date(req.createdAt).toLocaleDateString('ar-EG')}

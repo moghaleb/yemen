@@ -4,31 +4,16 @@ import { ArrowLeft, BookOpen, Share2 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
-const articles = [
-    {
-        id: 1,
-        title: "فهم اتجاهات سوق الذهب",
-        summary: "تعرف على أساسيات ما يحرك أسعار الذهب وكيفية تفسير إشارات السوق.",
-        readTime: "5 دقائق للقراءة",
-        tag: "مبتدئ"
-    },
-    {
-        id: 2,
-        title: "الاستثمار في سوق الأسهم 101",
-        summary: "دليل شامل للمبتدئين لبدء رحلتهم في تداول الأسهم.",
-        readTime: "8 دقائق للقراءة",
-        tag: "استثمار"
-    },
-    {
-        id: 3,
-        title: "استراتيجيات إدارة المخاطر",
-        summary: "كيف تحمي رأس مالك وتدير المخاطر بفعالية أثناء التداول.",
-        readTime: "6 دقائق للقراءة",
-        tag: "متقدم"
-    }
-];
+import { prisma } from "@/lib/prisma";
 
-export default function ArticlesPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function ArticlesPage() {
+    const articles = await prisma.educationalContent.findMany({
+        where: { type: "ARTICLE" },
+        orderBy: { createdAt: "desc" },
+    });
+
     return (
         <div className="flex flex-col min-h-screen bg-background pb-20">
             <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b p-4 flex items-center gap-4">
@@ -45,19 +30,26 @@ export default function ArticlesPage() {
                     <Card key={article.id}>
                         <CardHeader className="pb-2">
                             <div className="flex justify-between items-start">
-                                <Badge variant="secondary" className="mb-2">{article.tag}</Badge>
+                                <div className="flex gap-2">
+                                    <Badge variant="secondary" className="mb-2">
+                                        {article.category === 'GOLD' ? 'ذهب' : article.category === 'STOCK' ? 'أسهم' : 'عام'}
+                                    </Badge>
+                                    {article.isPremium && <Badge variant="outline" className="mb-2 border-amber-500 text-amber-500">Premium</Badge>}
+                                </div>
                                 <span className="text-xs text-muted-foreground flex items-center">
-                                    <BookOpen className="w-3 h-3 mr-1" /> {article.readTime}
+                                    <BookOpen className="w-3 h-3 mr-1" /> {new Date(article.createdAt).toLocaleDateString('ar-EG')}
                                 </span>
                             </div>
                             <CardTitle className="text-lg">{article.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-sm text-muted-foreground mb-4">
+                            <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
                                 {article.summary}
                             </p>
                             <div className="flex gap-2">
-                                <Button variant="outline" size="sm" className="w-full">قراءة المقال</Button>
+                                <Link href={`/education/articles/${article.id}`} className="w-full">
+                                    <Button variant="outline" size="sm" className="w-full">قراءة المقال</Button>
+                                </Link>
                                 <Button variant="ghost" size="icon" className="shrink-0">
                                     <Share2 className="w-4 h-4" />
                                 </Button>
@@ -65,6 +57,11 @@ export default function ArticlesPage() {
                         </CardContent>
                     </Card>
                 ))}
+                {articles.length === 0 && (
+                    <div className="text-center py-10 text-muted-foreground">
+                        <p>لا توجد مقالات منشورة حالياً.</p>
+                    </div>
+                )}
             </main>
         </div>
     );

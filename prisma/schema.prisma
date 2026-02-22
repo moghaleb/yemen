@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql" // Changed from sqlite for deployment
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -17,6 +17,7 @@ model User {
   subscriptionTier  String   @default("FREE") // FREE, BASIC, VIP
   subscriptionExpiry DateTime?
   requests          SubscriptionRequest[]
+  consultations     ConsultationRequest[]
   pushSubscriptions PushSubscription[]
   sessionVersion    Int      @default(0)
   createdAt         DateTime @default(now())
@@ -28,7 +29,20 @@ model SubscriptionRequest {
   userId        String
   user          User     @relation(fields: [userId], references: [id])
   requestedTier String   // BASIC, VIP
+  senderName    String?
+  transferNumber String?
   status        String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ConsultationRequest {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  topic         String?
+  preferredDate String?
+  status        String   @default("PENDING") // PENDING, COMPLETED, CANCELLED
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -77,5 +91,12 @@ model PushSubscription {
   endpoint  String   @unique
   p256dh    String
   auth      String
+  createdAt DateTime @default(now())
+}
+
+model BreakingNews {
+  id        String   @id @default(uuid())
+  content   String
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
 }

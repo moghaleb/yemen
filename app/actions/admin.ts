@@ -237,3 +237,31 @@ export async function rejectSubscriptionRequest(requestId: string) {
 
     revalidatePath("/admin/requests");
 }
+
+
+// --- Breaking News (Ticker) ---
+
+export async function createBreakingNews(formData: FormData) {
+    await requireAdmin();
+
+    const content = formData.get("content") as string;
+
+    await prisma.breakingNews.create({
+        data: {
+            content,
+            isActive: true
+        }
+    });
+
+    revalidatePath("/");
+}
+
+export async function deleteBreakingNews(id: string) {
+    await requireAdmin();
+
+    await prisma.breakingNews.delete({
+        where: { id }
+    });
+
+    revalidatePath("/");
+}

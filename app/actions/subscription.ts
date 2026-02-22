@@ -6,11 +6,15 @@ import { revalidatePath } from "next/cache";
 
 export async function requestSubscription(data: FormData | string) {
     let tier: string;
+    let senderName: string | null = null;
+    let transferNumber: string | null = null;
 
     if (typeof data === 'string') {
         tier = data;
     } else {
         tier = data.get("tier") as string;
+        senderName = (data.get("senderName") as string) || null;
+        transferNumber = (data.get("transferNumber") as string) || null;
     }
 
     const session = await auth();
@@ -42,7 +46,9 @@ export async function requestSubscription(data: FormData | string) {
         data: {
             userId: user.id,
             requestedTier: tier,
-            status: "PENDING"
+            status: "PENDING",
+            senderName,
+            transferNumber,
         }
     });
 

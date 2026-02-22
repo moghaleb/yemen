@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { auth } from "@/auth";
 
 // In a real app, fetch the user from session
 async function getUser() {
-    // MOCK: Retrieving role from nowhere for now, 
-    // real implementation needs session/cookie parsing
-    return { role: "ADMIN" };
+    const session = await auth();
+    return session?.user;
 }
 
 export default async function AdminLayout({
@@ -15,8 +15,8 @@ export default async function AdminLayout({
 }) {
     const user = await getUser();
 
-    if (user?.role !== "ADMIN") {
-        redirect("/");
+    if (!user || user.role !== "ADMIN") {
+        redirect("/login");
     }
 
     return (
@@ -45,6 +45,12 @@ export default async function AdminLayout({
                         الطلبات
                     </Link>
                     <Link
+                        href="/admin/consultations"
+                        className="block rounded px-4 py-2 hover:bg-slate-800"
+                    >
+                        الاستشارات
+                    </Link>
+                    <Link
                         href="/admin/recommendations"
                         className="block rounded px-4 py-2 hover:bg-slate-800"
                     >
@@ -57,10 +63,22 @@ export default async function AdminLayout({
                         الأخبار
                     </Link>
                     <Link
+                        href="/admin/articles"
+                        className="block rounded px-4 py-2 hover:bg-slate-800"
+                    >
+                        المقالات
+                    </Link>
+                    <Link
                         href="/admin/education"
                         className="block rounded px-4 py-2 hover:bg-slate-800"
                     >
                         التعليم
+                    </Link>
+                    <Link
+                        href="/admin/ticker"
+                        className="block rounded px-4 py-2 hover:bg-slate-800"
+                    >
+                        شريط الأخبار
                     </Link>
                     <Link
                         href="/"
