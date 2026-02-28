@@ -3,19 +3,19 @@
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 
-export async function authenticate(
+export async function authenticateAdmin(
     prevState: string | undefined,
     formData: FormData,
 ) {
     try {
-        await signIn('credentials', { ...Object.fromEntries(formData), redirectTo: '/' });
+        await signIn('credentials', { ...Object.fromEntries(formData), redirectTo: '/admin' });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {
                 case 'CredentialsSignin':
-                    return 'Invalid credentials.';
+                    return 'بيانات الدخول غير صحيحة.';
                 default:
-                    return 'Something went wrong.';
+                    return 'حدث خطأ غير متوقع.';
             }
         }
         throw error;
