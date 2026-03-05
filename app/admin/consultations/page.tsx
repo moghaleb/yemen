@@ -45,17 +45,17 @@ export default async function AdminConsultationsPage() {
                             <div className="flex justify-between items-start">
                                 <div className="flex items-center gap-3">
                                     <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600">
-                                        {con.user.name?.charAt(0) || "U"}
+                                        {con.user?.name?.charAt(0) || "U"}
                                     </div>
                                     <div>
-                                        <div className="font-bold text-lg">{con.user.name}</div>
-                                        <div className="text-sm text-slate-500">{con.user.email}</div>
+                                        <div className="font-bold text-lg">{con.user?.name || "مستخدم غير محدد"}</div>
+                                        <div className="text-sm text-slate-500">{con.user?.email || "غير متوفر"}</div>
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
                                     <span className={`px-3 py-1 rounded-full text-xs font-bold ${con.status === 'PENDING' ? 'bg-amber-100 text-amber-700' :
-                                            con.status === 'COMPLETED' ? 'bg-green-100 text-green-700' :
-                                                'bg-slate-100 text-slate-700'
+                                        con.status === 'COMPLETED' ? 'bg-green-100 text-green-700' :
+                                            'bg-slate-100 text-slate-700'
                                         }`}>
                                         {con.status === 'PENDING' ? 'قيد الانتظار' :
                                             con.status === 'COMPLETED' ? 'مكتمل' : 'ملغي'}
