@@ -51,3 +51,48 @@ export async function updateUserSubscription(formData: FormData) {
         throw error;
     }
 }
+
+export async function deleteUser(formData: FormData) {
+    const userId = formData.get("userId") as string;
+
+    if (!userId) {
+        throw new Error("User ID is required");
+    }
+
+    try {
+        const session = await auth();
+        if (!session?.user || session.user.role !== 'ADMIN') {
+            throw new Error("Unauthorized");
+        }
+
+        // Prevent admin from deleting themselves
+        const currentUser = await prisma.user.findUnique({
+            where: { email: session.user.email! }
+        });
+
+        if (currentUser?.id === userId) {
+            throw new Error("لا يمكنك حذف حسابك الشخصي");
+        }
+
+        console.log(`Starting deletion for user ${userId}`);
+
+        // Handle related records to avoid foreign key constraints
+        // We delete them in a transaction for safety
+        await prisma.$transaction([
+            prisma.subscriptionRequest.deleteMany({ where: { userId } }),
+            prisma.consultationRequest.deleteMany({ where: { userId } }),
+            prisma.pushSubscription.deleteMany({ where: { userId } }),
+            prisma.user.delete({ where: { id: userId } })
+        ]);
+
+        console.log("User and related records deleted successfully");
+        revalidatePath("/admin/users");
+        revalidatePath("/admin/consultations");
+        revalidatePath("/admin/requests");
+
+        return { success: true };
+    } catch (error: any) {
+        console.error("Failed to delete user:", error);
+        throw new Error(error.message || "فشل حذف المستخدم");
+    }
+}

@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { format } from "date-fns";
-import { updateUserSubscription } from "@/app/actions/user";
+import { updateUserSubscription, deleteUser } from "@/app/actions/user";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,8 @@ export default async function AdminUsersPage() {
                     <div>الاسم / البريد</div>
                     <div>نوع الاشتراك</div>
                     <div>تاريخ الانتهاء</div>
-                    <div>إجراءات</div>
+                    <div>تاريخ الانتهاء</div>
+                    <div className="text-center">إجراءات</div>
                 </div>
 
                 {/* Body */}
@@ -59,8 +61,22 @@ export default async function AdminUsersPage() {
                             </div>
 
                             {/* Actions */}
-                            <div>
-                                <Button size="sm" type="submit" className="w-full md:w-auto">حفظ التغييرات</Button>
+                            <div className="flex gap-2 justify-end">
+                                <Button size="sm" type="submit" className="flex-1">حفظ</Button>
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    type="button"
+                                    onClick={async (e) => {
+                                        if (confirm("هل أنت متأكد من رغبتك في حذف هذا المستخدم نهائياً؟")) {
+                                            const form = new FormData();
+                                            form.append("userId", user.id);
+                                            await deleteUser(form);
+                                        }
+                                    }}
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                </Button>
                             </div>
                         </form>
                     ))}
