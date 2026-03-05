@@ -71,11 +71,11 @@ export default async function AdminRequestsPage() {
                                     <td className="p-4">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-500">
-                                                {req.user.name?.charAt(0) || "U"}
+                                                {req.user?.name?.charAt(0) || "U"}
                                             </div>
                                             <div>
-                                                <div className="font-bold">{req.user.name}</div>
-                                                <div className="text-xs text-slate-500">{req.user.email}</div>
+                                                <div className="font-bold">{req.user?.name || "مستخدم غير معروف"}</div>
+                                                <div className="text-xs text-slate-500">{req.user?.email || "البريد غير متوفر"}</div>
                                             </div>
                                         </div>
                                     </td>
