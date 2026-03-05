@@ -138,6 +138,7 @@ export async function handleSubscriptionRequest(formData: FormData) {
             });
         }
 
+        revalidatePath('/admin/requests');
         revalidatePath('/admin/users');
         // Removed return for TypeScript compatibility with form actions
     } catch (error: any) {
