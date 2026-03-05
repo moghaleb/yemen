@@ -97,3 +97,52 @@ export async function deleteUser(formData: FormData) {
         throw new Error(error.message || "فشل حذف المستخدم");
     }
 }
+
+export async function handleSubscriptionRequest(formData: FormData) {
+    const requestId = formData.get('requestId') as string;
+    const action = formData.get('action') as string; // 'approve' or 'reject'
+    const userId = formData.get('userId') as string;
+    const tier = formData.get('tier') as string;
+
+    try {
+        const session = await auth();
+        if (!session?.user || session.user.role !== 'ADMIN') {
+            throw new Error("Unauthorized");
+        }
+
+        if (action === 'approve') {
+            // Default expiry: 30 days from now
+            const expiry = new Date();
+            expiry.setDate(expiry.getDate() + 30);
+
+            await prisma.$transaction([
+                // Update User Tier and Expiry
+                prisma.user.update({
+                    where: { id: userId },
+                    data: {
+                        subscriptionTier: tier,
+                        subscriptionExpiry: expiry
+                    }
+                }),
+                // Update Request Status
+                prisma.subscriptionRequest.update({
+                    where: { id: requestId },
+                    data: { status: 'APPROVED' }
+                })
+            ]);
+        } else {
+            // Reject
+            await prisma.subscriptionRequest.update({
+                where: { id: requestId },
+                data: { status: 'REJECTED' }
+            });
+        }
+
+        revalidatePath('/admin/requests');
+        revalidatePath('/admin/users');
+        return { success: true };
+    } catch (error: any) {
+        console.error("Failed to handle subscription request:", error);
+        throw new Error(error.message || "Failed to process request");
+    }
+}

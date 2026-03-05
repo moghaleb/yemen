@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { Check, X, Clock } from "lucide-react";
+import { handleSubscriptionRequest } from "@/app/actions/user";
+import { Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const dynamic = 'force-dynamic';
@@ -11,37 +11,6 @@ export default async function AdminRequestsPage() {
         include: { user: true },
         orderBy: { createdAt: 'desc' }
     });
-
-    async function handleRequest(formData: FormData) {
-        'use server';
-        const requestId = formData.get('requestId') as string;
-        const action = formData.get('action') as string; // 'approve' or 'reject'
-        const userId = formData.get('userId') as string;
-        const tier = formData.get('tier') as string;
-
-        if (action === 'approve') {
-            await prisma.$transaction([
-                // Update User Tier
-                prisma.user.update({
-                    where: { id: userId },
-                    data: { subscriptionTier: tier }
-                }),
-                // Update Request Status
-                prisma.subscriptionRequest.update({
-                    where: { id: requestId },
-                    data: { status: 'APPROVED' }
-                })
-            ]);
-        } else {
-            // Reject
-            await prisma.subscriptionRequest.update({
-                where: { id: requestId },
-                data: { status: 'REJECTED' }
-            });
-        }
-
-        revalidatePath('/admin/requests');
-    }
 
     return (
         <div>
@@ -96,7 +65,7 @@ export default async function AdminRequestsPage() {
                                     </td>
                                     <td className="p-4">
                                         <div className="flex items-center gap-2">
-                                            <form action={handleRequest}>
+                                            <form action={handleSubscriptionRequest}>
                                                 <input type="hidden" name="requestId" value={req.id} />
                                                 <input type="hidden" name="userId" value={req.userId} />
                                                 <input type="hidden" name="tier" value={req.requestedTier} />
@@ -105,7 +74,7 @@ export default async function AdminRequestsPage() {
                                                     <Check className="w-4 h-4" /> قبول
                                                 </Button>
                                             </form>
-                                            <form action={handleRequest}>
+                                            <form action={handleSubscriptionRequest}>
                                                 <input type="hidden" name="requestId" value={req.id} />
                                                 <input type="hidden" name="action" value="reject" />
                                                 <Button size="sm" variant="destructive" className="gap-2">
