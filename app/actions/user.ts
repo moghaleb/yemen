@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/auth";
 
 export async function updateUserSubscription(formData: FormData) {
     const userId = formData.get("userId") as string;
