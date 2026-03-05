@@ -91,7 +91,7 @@ export async function deleteUser(formData: FormData) {
         revalidatePath("/admin/consultations");
         revalidatePath("/admin/requests");
 
-        return { success: true };
+        // Removed return for TypeScript compatibility with form actions
     } catch (error: any) {
         console.error("Failed to delete user:", error);
         throw new Error(error.message || "فشل حذف المستخدم");
@@ -138,9 +138,8 @@ export async function handleSubscriptionRequest(formData: FormData) {
             });
         }
 
-        revalidatePath('/admin/requests');
         revalidatePath('/admin/users');
-        return { success: true };
+        // Removed return for TypeScript compatibility with form actions
     } catch (error: any) {
         console.error("Failed to handle subscription request:", error);
         throw new Error(error.message || "Failed to process request");
