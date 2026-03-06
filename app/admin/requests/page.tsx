@@ -13,9 +13,11 @@ export default async function AdminRequestsPage() {
             include: { user: true },
             orderBy: { createdAt: 'desc' }
         });
-    } catch (err) {
+    } catch (err: any) {
         console.error("Prisma error in requests page:", err);
-        return <div className="p-8 text-red-600 font-bold border-2 border-red-500 rounded-lg">خطأ في قاعدة البيانات. برجاء التواصل مع المبرمج.</div>;
+        return <div className="p-8 text-red-600 font-bold border-2 border-red-500 rounded-lg">
+            خطأ في قاعدة البيانات: {err?.message || "مشكلة غير معروفة"}
+        </div>;
     }
 
     return (
