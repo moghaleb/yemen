@@ -32,21 +32,26 @@ export default function SubscriptionTicker() {
     };
 
     return (
-        <div className="relative w-full overflow-hidden py-4 bg-background/50 backdrop-blur-sm border-y border-white/5" dir="ltr">
-            <div className="flex animate-scroll gap-4 min-w-max">
-                {[...plans, ...plans, ...plans, ...plans].map((plan, i) => (
-                    <div
-                        key={`${plan.id}-${i}`}
-                        className={`flex items-center gap-3 px-4 py-2 rounded-xl border ${plan.border} ${plan.bg} min-w-[200px] cursor-pointer hover:scale-105 transition-transform`}
-                        onClick={() => handleSelect(plan.id)}
-                    >
-                        <plan.icon className={`w-5 h-5 ${plan.color}`} />
-                        <div>
-                            <h3 className={`font-bold text-sm ${plan.color}`}>{plan.name}</h3>
-                            <p className="text-xs text-muted-foreground">{plan.price} / شهرياً</p>
+        <div className="relative w-full py-6 bg-background/50 backdrop-blur-sm border-y border-white/5">
+            <div className="text-center mb-6">
+                <h2 className="text-2xl font-bold inline-block text-white dark:text-white border-b-2 border-amber-500 pb-2">اشترك الآن</h2>                <p className="text-sm text-muted-foreground mt-2">اختر الباقة المناسبة للوصول إلى كامل التحليلات والتوصيات</p>
+            </div>
+            <div className="w-full overflow-hidden" dir="ltr">
+                <div className="flex animate-scroll gap-4 min-w-max">
+                    {[...plans, ...plans, ...plans, ...plans].map((plan, i) => (
+                        <div
+                            key={`${plan.id}-${i}`}
+                            className={`flex items-center gap-3 px-4 py-2 rounded-xl border ${plan.border} ${plan.bg} min-w-[200px] cursor-pointer hover:scale-105 transition-transform`}
+                            onClick={() => handleSelect(plan.id)}
+                        >
+                            <plan.icon className={`w-5 h-5 ${plan.color}`} />
+                            <div>
+                                <h3 className={`font-bold text-sm ${plan.color}`}>{plan.name}</h3>
+                                <p className="text-xs text-muted-foreground">{plan.price} / شهرياً</p>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             <style jsx>{`
