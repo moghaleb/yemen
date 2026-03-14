@@ -108,6 +108,7 @@ export async function createNews(formData: FormData) {
 
     const title = formData.get("title") as string;
     const summary = formData.get("summary") as string;
+    const content = formData.get("content") as string;
     const impact = formData.get("impact") as string;
     const source = formData.get("source") as string;
 
@@ -115,6 +116,7 @@ export async function createNews(formData: FormData) {
         data: {
             title,
             summary,
+            content,
             impact,
             source,
             category: formData.get("category") as string || "GENERAL",
@@ -156,6 +158,7 @@ export async function createEducationalContent(formData: FormData) {
 
     const title = formData.get("title") as string;
     const summary = formData.get("summary") as string;
+    const content = formData.get("content") as string;
     const type = formData.get("type") as string; // VIDEO, ARTICLE, ANALYSIS
     const url = formData.get("url") as string;
     const category = formData.get("category") as string || "GENERAL";
@@ -165,6 +168,7 @@ export async function createEducationalContent(formData: FormData) {
         data: {
             title,
             summary,
+            content,
             type,
             url,
             category,

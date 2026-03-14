@@ -49,8 +49,12 @@ export default async function ManageNews() {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">ملخص الخبر</label>
-                        <textarea name="summary" rows={3} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" required placeholder="تفاصيل الخبر..."></textarea>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">ملخص الخبر (يظهر في القائمة)</label>
+                        <textarea name="summary" rows={2} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" required placeholder="ملخص قصير..."></textarea>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">تفاصيل الخبر الكاملة</label>
+                        <textarea name="content" rows={6} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" placeholder="اكتب تفاصيل الخبر هنا بالتفصيل..."></textarea>
                     </div>
                     <button type="submit" className="rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700 font-medium shadow-sm transition-colors">
                         نشر الخبر
@@ -67,7 +71,7 @@ export default async function ManageNews() {
                                 <div className="flex items-center gap-2 mb-1">
                                     <p className="font-bold text-gray-900">{item.title}</p>
                                     <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${item.impact === 'HIGH' ? 'bg-red-100 text-red-800' :
-                                            item.impact === 'MEDIUM' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'
+                                        item.impact === 'MEDIUM' ? 'bg-orange-100 text-orange-800' : 'bg-green-100 text-green-800'
                                         }`}>
                                         {item.impact === 'HIGH' ? 'عالي' : item.impact === 'MEDIUM' ? 'متوسط' : 'منخفض'}
                                     </span>

@@ -65,6 +65,7 @@ model NewsItem {
   id          String   @id @default(uuid())
   title       String
   summary     String
+  content     String?
   source      String?
   impact      String
   category    String   @default("GENERAL") // GOLD, STOCK, GENERAL
@@ -79,6 +80,7 @@ model EducationalContent {
   type        String   // VIDEO, ARTICLE, ANALYSIS
   url         String?
   summary     String
+  content     String?
   category    String   @default("GENERAL") // GOLD, STOCK, GENERAL
   isPremium   Boolean  @default(false)
   createdAt   DateTime @default(now())

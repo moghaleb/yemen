@@ -101,20 +101,20 @@ export default async function GoldDashboard() {
                         {analysis.length > 0 ? (
                             <div className="grid gap-4">
                                 {analysis.map((item) => (
-                                    <div key={item.id} className="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                                        <h3 className="font-bold text-lg text-slate-800 mb-2">{item.title}</h3>
-                                        <div className="prose prose-sm text-slate-600 mb-3 line-clamp-3">
-                                            {item.summary}
+                                    <Link href={`/education/articles/${item.id}`} key={item.id} className="block group">
+                                        <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 group-hover:border-amber-200 group-hover:shadow-md transition-all cursor-pointer">
+                                            <h3 className="font-bold text-lg text-slate-800 mb-2 group-hover:text-amber-700">{item.title}</h3>
+                                            <div className="prose prose-sm text-slate-600 mb-3 line-clamp-3">
+                                                {item.summary}
+                                            </div>
+                                            <div className="flex items-center justify-between text-xs text-slate-400">
+                                                <span>{formatTime(item.createdAt)}</span>
+                                                <span className="text-amber-600 font-medium group-hover:underline">
+                                                    عرض التحليل &larr;
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center justify-between text-xs text-slate-400">
-                                            <span>{formatTime(item.createdAt)}</span>
-                                            {item.url && (
-                                                <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:underline">
-                                                    عرض الكامل &larr;
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
+                                    </Link>
                                 ))}
                             </div>
                         ) : (
@@ -156,17 +156,19 @@ export default async function GoldDashboard() {
                     <TabsContent value="news" className="space-y-4">
                         {news.length > 0 ? (
                             news.map((item) => (
-                                <div key={item.id} className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex gap-4">
-                                    <div className={`shrink-0 w-1 rounded-full ${item.impact === 'HIGH' ? 'bg-red-500' : item.impact === 'MEDIUM' ? 'bg-orange-500' : 'bg-green-500'
-                                        }`}></div>
-                                    <div>
-                                        <h3 className="font-bold text-slate-800 mb-1">{item.title}</h3>
-                                        <p className="text-sm text-slate-600 mb-2 line-clamp-2">{item.summary}</p>
-                                        <div className="text-xs text-slate-400">
-                                            {formatTime(item.publishedAt)} • {item.source || "مصدر مجهول"}
+                                <Link href={`/news/${item.id}`} key={item.id} className="block group">
+                                    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 group-hover:border-amber-200 group-hover:shadow-md transition-all cursor-pointer flex gap-4">
+                                        <div className={`shrink-0 w-1 rounded-full ${item.impact === 'HIGH' ? 'bg-red-500' : item.impact === 'MEDIUM' ? 'bg-orange-500' : 'bg-green-500'
+                                            }`}></div>
+                                        <div>
+                                            <h3 className="font-bold text-slate-800 mb-1 group-hover:text-amber-700">{item.title}</h3>
+                                            <p className="text-sm text-slate-600 mb-2 line-clamp-2">{item.summary}</p>
+                                            <div className="text-xs text-slate-400">
+                                                {formatTime(item.publishedAt)} • {item.source || "مصدر مجهول"}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))
                         ) : (
                             <div className="text-center py-12 bg-white rounded-xl border border-dashed text-slate-400">
@@ -179,23 +181,23 @@ export default async function GoldDashboard() {
                     <TabsContent value="articles" className="space-y-4">
                         {articles.length > 0 ? (
                             articles.map((item) => (
-                                <div key={item.id} className="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <BookOpen className="w-4 h-4 text-amber-500" />
-                                        <h3 className="font-bold text-lg text-slate-800">{item.title}</h3>
+                                <Link href={`/education/articles/${item.id}`} key={item.id} className="block group">
+                                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 group-hover:border-amber-200 group-hover:shadow-md transition-all cursor-pointer">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <BookOpen className="w-4 h-4 text-amber-500" />
+                                            <h3 className="font-bold text-lg text-slate-800 group-hover:text-amber-700">{item.title}</h3>
+                                        </div>
+                                        <div className="prose prose-sm text-slate-600 mb-3 line-clamp-3">
+                                            {item.summary}
+                                        </div>
+                                        <div className="flex items-center justify-between text-xs text-slate-400">
+                                            <span>{formatTime(item.createdAt)}</span>
+                                            <span className="text-amber-600 font-medium group-hover:underline">
+                                                قراءة المقال &larr;
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="prose prose-sm text-slate-600 mb-3 line-clamp-3">
-                                        {item.summary}
-                                    </div>
-                                    <div className="flex items-center justify-between text-xs text-slate-400">
-                                        <span>{formatTime(item.createdAt)}</span>
-                                        {item.url && (
-                                            <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:underline">
-                                                قراءة المزيد &larr;
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
+                                </Link>
                             ))
                         ) : (
                             <div className="text-center py-12 bg-white rounded-xl border border-dashed text-slate-400">

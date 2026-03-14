@@ -47,8 +47,13 @@ export default async function ManageEducation() {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-slate-700 mb-1">المحتوى / الملخص</label>
-                        <textarea name="summary" rows={5} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" required placeholder="اكتب المحتوى هنا..."></textarea>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">ملخص قصير</label>
+                        <textarea name="summary" rows={2} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" required placeholder="يظهر في صفحة القائمة..."></textarea>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">المحتوى الكامل (للمقالات والتحليل)</label>
+                        <textarea name="content" rows={8} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" placeholder="اكتب المحتوى الكامل هنا..."></textarea>
                     </div>
 
                     <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-md border border-gray-200">
@@ -70,7 +75,7 @@ export default async function ManageEducation() {
                             <div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${item.type === 'ANALYSIS' ? 'bg-purple-100 text-purple-800' :
-                                            item.type === 'VIDEO' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                                        item.type === 'VIDEO' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
                                         }`}>
                                         {item.type === 'ANALYSIS' ? 'تحليل' : item.type === 'VIDEO' ? 'فيديو' : 'مقال'}
                                     </span>
