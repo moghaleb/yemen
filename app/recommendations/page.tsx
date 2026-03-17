@@ -68,6 +68,7 @@ export default async function RecommendationsPage() {
                                     stopLoss={rec.stopLoss ? rec.stopLoss.toString() : "-"}
                                     // @ts-ignore
                                     rationale={rec.rationale || ""}
+                                    imageUrl={rec.imageUrl}
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
@@ -94,6 +95,7 @@ export default async function RecommendationsPage() {
                                     stopLoss={rec.stopLoss ? rec.stopLoss.toString() : "-"}
                                     // @ts-ignore
                                     rationale={rec.rationale || ""}
+                                    imageUrl={rec.imageUrl}
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
                                     isLocked={!hasAccess(userTier, rec.minTier)}

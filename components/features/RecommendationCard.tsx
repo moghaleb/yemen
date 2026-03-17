@@ -9,6 +9,7 @@ interface RecommendationCardProps {
     target: string;
     stopLoss: string;
     rationale: string;
+    imageUrl?: string | null;
     risk: "Low" | "Medium" | "High";
     date: string;
     isLocked?: boolean;
@@ -22,6 +23,7 @@ export default function RecommendationCard({
     target,
     stopLoss,
     rationale,
+    imageUrl,
     risk,
     date,
     onShare,
@@ -57,7 +59,18 @@ export default function RecommendationCard({
                 </div>
             )}
 
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2 relative z-10">
+            {imageUrl && !isLocked && (
+                <div className="w-full h-48 sm:h-56 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
+                    <img
+                        src={imageUrl}
+                        alt={`تحليل ${asset}`}
+                        className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                    />
+                </div>
+            )}
+
+            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2 relative z-10 pt-4">
                 <div className="flex flex-col">
                     <CardTitle className="text-lg font-bold flex items-center gap-2">
                         {asset}

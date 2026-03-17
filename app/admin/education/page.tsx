@@ -56,6 +56,11 @@ export default async function ManageEducation() {
                         <textarea name="content" rows={8} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" placeholder="اكتب المحتوى الكامل هنا..."></textarea>
                     </div>
 
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">صورة المقال/التحليل (اختياري)</label>
+                        <input type="file" name="imageFile" accept="image/*" className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                    </div>
+
                     <div className="flex items-center gap-2 bg-gray-50 p-3 rounded-md border border-gray-200">
                         <input type="checkbox" name="isPremium" id="isPremium" className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
                         <label htmlFor="isPremium" className="text-sm font-medium text-slate-700 select-none cursor-pointer">محتوى مدفوع (VIP/Basic فقط) 🔒</label>

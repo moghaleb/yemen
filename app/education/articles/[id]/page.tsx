@@ -50,7 +50,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
             <main className="container max-w-3xl py-8 px-4">
                 <article className="space-y-6">
                     <header className="space-y-4">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 mb-4">
                             <Badge variant="secondary" className="bg-slate-800 text-slate-300 border-none">
                                 {article.category === 'GOLD' ? 'ذهب' : article.category === 'STOCK' ? 'أسهم' : 'عام'}
                             </Badge>
@@ -60,7 +60,16 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
                                 </Badge>
                             )}
                         </div>
-                        <h1 className="text-3xl font-bold leading-tight md:text-4xl text-white">{article.title}</h1>
+                        <h1 className="text-3xl font-bold leading-tight md:text-4xl text-white mb-6">{article.title}</h1>
+                        {article.imageUrl && !isLocked && (
+                            <div className="w-full mb-6 rounded-2xl overflow-hidden shadow-2xl border border-slate-800/50">
+                                <img
+                                    src={article.imageUrl}
+                                    alt={article.title}
+                                    className="w-full h-auto object-cover max-h-[500px]"
+                                />
+                            </div>
+                        )}
                         <div className="flex items-center text-sm text-slate-400 gap-4">
                             <span className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />

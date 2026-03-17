@@ -55,6 +55,10 @@ export default async function ManageRecommendations() {
                         <label className="block text-sm font-medium text-slate-700 mb-1">السبب / التحليل</label>
                         <textarea name="rationale" rows={3} className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm" required placeholder="لماذا نوصي بهذا؟"></textarea>
                     </div>
+                    <div>
+                        <label className="block text-sm font-medium text-slate-700 mb-1">صورة التوصية (اختياري)</label>
+                        <input type="file" name="imageFile" accept="image/*" className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm focus:border-amber-500 focus:ring-amber-500" />
+                    </div>
                     <button type="submit" className="rounded-md bg-amber-600 px-6 py-2 text-white hover:bg-amber-700 font-medium shadow-sm transition-colors">
                         نشر التوصية
                     </button>

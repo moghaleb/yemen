@@ -139,6 +139,7 @@ export default async function GoldDashboard() {
                                     stopLoss={rec.stopLoss ? rec.stopLoss.toString() : "-"}
                                     // @ts-ignore
                                     rationale={rec.rationale || ""}
+                                    imageUrl={rec.imageUrl}
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
                                     // Gating Added Here

@@ -3,6 +3,9 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { writeFile, mkdir } from "fs/promises";
+import path from "path";
+import { existsSync } from "fs";
 
 // --- Helpers ---
 
@@ -65,6 +68,28 @@ export async function createRecommendation(formData: FormData) {
     const rationale = formData.get("rationale") as string;
     const minTier = formData.get("minTier") as string || "FREE";
 
+    let imageUrl = formData.get("imageUrl") as string | null;
+    const imageFile = formData.get("imageFile") as File | null;
+
+    if (imageFile && imageFile.name && imageFile.size > 0) {
+        const bytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        // Sanitize filename to prevent issues
+        const safeName = imageFile.name.replace(/[^a-zA-Z0-9.-]/g, '');
+        const filename = `${Date.now()}-${safeName}`;
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+
+        if (!existsSync(uploadDir)) {
+            await mkdir(uploadDir, { recursive: true });
+        }
+
+        const filePath = path.join(uploadDir, filename);
+        await writeFile(filePath, buffer);
+        
+        imageUrl = `/uploads/${filename}`;
+    }
+
     const recommendation = await prisma.recommendation.create({
         data: {
             type,
@@ -73,6 +98,7 @@ export async function createRecommendation(formData: FormData) {
             stopLoss,
             takeProfit,
             rationale,
+            imageUrl,
             minTier,
             status: "ACTIVE",
         },
@@ -164,6 +190,28 @@ export async function createEducationalContent(formData: FormData) {
     const category = formData.get("category") as string || "GENERAL";
     const isPremium = formData.get("isPremium") === "on";
 
+    let imageUrl = null;
+    const imageFile = formData.get("imageFile") as File | null;
+
+    if (imageFile && imageFile.name && imageFile.size > 0) {
+        const bytes = await imageFile.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        // Sanitize filename to prevent issues
+        const safeName = imageFile.name.replace(/[^a-zA-Z0-9.-]/g, '');
+        const filename = `${Date.now()}-edu-${safeName}`;
+        const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+
+        if (!existsSync(uploadDir)) {
+            await mkdir(uploadDir, { recursive: true });
+        }
+
+        const filePath = path.join(uploadDir, filename);
+        await writeFile(filePath, buffer);
+        
+        imageUrl = `/uploads/${filename}`;
+    }
+
     await prisma.educationalContent.create({
         data: {
             title,
@@ -171,6 +219,7 @@ export async function createEducationalContent(formData: FormData) {
             content,
             type,
             url,
+            imageUrl,
             category,
             isPremium,
         },

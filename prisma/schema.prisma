@@ -55,6 +55,7 @@ model Recommendation {
   stopLoss    Float?
   takeProfit  Float?
   rationale   String?
+  imageUrl    String?
   minTier     String   @default("FREE") // FREE, BASIC, VIP
   status      String   @default("ACTIVE")
   createdAt   DateTime @default(now())
@@ -81,6 +82,7 @@ model EducationalContent {
   url         String?
   summary     String
   content     String?
+  imageUrl    String?
   category    String   @default("GENERAL") // GOLD, STOCK, GENERAL
   isPremium   Boolean  @default(false)
   createdAt   DateTime @default(now())
