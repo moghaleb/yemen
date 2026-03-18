@@ -28,10 +28,29 @@ webpush.setVapidDetails(
     process.env.VAPID_PRIVATE_KEY!
 );
 
-async function sendNotificationToAll(payload: any) {
+async function sendNotificationToAll(payload: any, minTier?: string) {
     try {
-        const subscriptions = await prisma.pushSubscription.findMany();
-        console.log(`Sending notification to ${subscriptions.length} subscribers`);
+        let subscriptions;
+        
+        if (minTier && minTier !== "FREE") {
+            // If it's a premium notification, we might still want to notify everyone 
+            // but the payload could indicate it's premium.
+            // For now, let's just fetch all and let the client handle it if needed,
+            // or we could filter here. Let's filter here to be efficient.
+            subscriptions = await prisma.pushSubscription.findMany({
+                where: {
+                    user: {
+                        subscriptionTier: {
+                            in: minTier === "VIP" ? ["VIP"] : ["BASIC", "VIP"]
+                        }
+                    }
+                }
+            });
+        } else {
+            subscriptions = await prisma.pushSubscription.findMany();
+        }
+
+        console.log(`Sending notification to ${subscriptions.length} subscribers (Tier: ${minTier || 'ALL'})`);
 
         const notifications = subscriptions.map(sub => {
             return webpush.sendNotification({
@@ -109,7 +128,7 @@ export async function createRecommendation(formData: FormData) {
         title: `توصية جديدة: ${type} ${action}`,
         body: `السعر: ${price} - الهدف: ${takeProfit}`,
         url: '/'
-    });
+    }, minTier);
 
     revalidatePath("/");
     revalidatePath("/recommendations");
@@ -155,7 +174,7 @@ export async function createNews(formData: FormData) {
         title: `خبر عاجل: ${title}`,
         body: summary.substring(0, 100) + '...',
         url: '/#news'
-    });
+    }, formData.get("minTier") as string || "FREE");
 
     revalidatePath("/");
     revalidatePath("/news");
@@ -223,6 +242,13 @@ export async function createEducationalContent(formData: FormData) {
             category,
             isPremium,
         },
+    });
+
+    // Send Notification
+    await sendNotificationToAll({
+        title: `محتوى تعليمي جديد: ${title}`,
+        body: summary.substring(0, 100) + '...',
+        url: '/education'
     });
 
     revalidatePath("/");
@@ -304,6 +330,13 @@ export async function createBreakingNews(formData: FormData) {
             content,
             isActive: true
         }
+    });
+
+    // Send Notification
+    await sendNotificationToAll({
+        title: `تنبيه عاجل`,
+        body: content,
+        url: '/'
     });
 
     revalidatePath("/");
