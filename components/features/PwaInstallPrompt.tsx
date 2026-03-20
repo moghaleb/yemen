@@ -94,14 +94,8 @@ export default function PwaInstallPrompt() {
                     </div>
 
                     {/* Logo Section (Left side in RTL) */}
-                    <div className="w-16 h-16 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center shrink-0 overflow-hidden relative">
-                        {/* We use a placeholder text if no image, but try to use logo.png if it exists */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37] to-[#B8860B] opacity-10" />
-                        <span className="text-[#D4AF37] font-black text-xl z-10">GR</span>
-                        {/* 
-                          To use your actual logo:
-                          <img src="/logo.png" alt="Logo" className="w-full h-full object-contain p-2 relative z-10" />
-                        */}
+                    <div className="w-16 h-16 rounded-2xl bg-black border border-gray-800 shadow-lg flex items-center justify-center shrink-0 overflow-hidden relative">
+                        <img src="/logo.png" alt="رادار الذهب" className="w-full h-full object-cover" />
                     </div>
                 </div>
 
