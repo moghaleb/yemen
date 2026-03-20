@@ -29,7 +29,9 @@ export default async function RecommendationsPage() {
 
     // Fetch active recommendations
     const activeRecs = await prisma.recommendation.findMany({
-        where: { status: "ACTIVE" },
+        where: {
+            status: { not: "CLOSED" }
+        },
         orderBy: { createdAt: "desc" },
     });
 
@@ -71,6 +73,7 @@ export default async function RecommendationsPage() {
                                     imageUrl={rec.imageUrl}
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
+                                    status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
                                 />
                             ))
@@ -98,6 +101,7 @@ export default async function RecommendationsPage() {
                                     imageUrl={rec.imageUrl}
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
+                                    status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
                                 />
                             ))

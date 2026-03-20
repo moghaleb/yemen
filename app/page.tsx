@@ -21,7 +21,7 @@ export default async function Home() {
 
   // Fetch latest active recommendation
   const latestRec = await prisma.recommendation.findFirst({
-    where: { status: "ACTIVE" },
+    where: { status: { not: "CLOSED" } },
     orderBy: { createdAt: "desc" },
   });
 
@@ -185,6 +185,7 @@ export default async function Home() {
                 rationale={latestRec.rationale || ""}
                 risk="Medium" // Default
                 date={`اليوم، ${formatTime(latestRec.createdAt)}`}
+                status={latestRec.status}
                 isLocked={recIsLocked}
               />
             ) : (

@@ -12,6 +12,7 @@ interface RecommendationCardProps {
     imageUrl?: string | null;
     risk: "Low" | "Medium" | "High";
     date: string;
+    status?: string;
     isLocked?: boolean;
     onShare?: () => void;
 }
@@ -26,6 +27,7 @@ export default function RecommendationCard({
     imageUrl,
     risk,
     date,
+    status,
     onShare,
     isLocked = false,
 }: RecommendationCardProps) {
@@ -77,6 +79,19 @@ export default function RecommendationCard({
                         <span className={`px-2 py-0.5 rounded text-xs font-bold border ${typeColor}`}>
                             {type}
                         </span>
+                        {status && status !== 'ACTIVE' && (
+                            <Badge variant="outline" className={`text-[10px] sm:text-xs font-bold ${
+                                status === 'SUCCEEDED' ? 'bg-green-500 text-white border-green-600' :
+                                status === 'FAILED' ? 'bg-red-500 text-white border-red-600' :
+                                status === 'ACTIVATED' ? 'bg-amber-500 text-black border-amber-600' :
+                                status === 'CLOSED' ? 'bg-gray-500 text-white border-gray-600' : ''
+                            }`}>
+                                {status === 'SUCCEEDED' ? 'نجحت 🏆' :
+                                 status === 'FAILED' ? 'فشلت ❌' :
+                                 status === 'ACTIVATED' ? 'تفعلت ✅' :
+                                 status === 'CLOSED' ? 'مغلقة 🔒' : status}
+                            </Badge>
+                        )}
                     </CardTitle>
                     <span className="text-xs text-muted-foreground flex items-center mt-1">
                         <Clock className="w-3 h-3 mr-1" /> {date}

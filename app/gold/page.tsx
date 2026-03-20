@@ -143,6 +143,7 @@ export default async function GoldDashboard() {
                                     risk="Medium"
                                     date={formatTime(rec.createdAt)}
                                     // Gating Added Here
+                                    status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
                                 />
                             ))
