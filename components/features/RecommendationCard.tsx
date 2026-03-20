@@ -79,17 +79,19 @@ export default function RecommendationCard({
                         <span className={`px-2 py-0.5 rounded text-xs font-bold border ${typeColor}`}>
                             {type}
                         </span>
-                        {status && status !== 'ACTIVE' && (
-                            <Badge variant="outline" className={`text-[10px] sm:text-xs font-bold ${
+                        {status && (
+                            <Badge variant="outline" className={`text-[10px] sm:text-xs font-bold tracking-tight ${
                                 status === 'SUCCEEDED' ? 'bg-green-500 text-white border-green-600' :
                                 status === 'FAILED' ? 'bg-red-500 text-white border-red-600' :
-                                status === 'ACTIVATED' ? 'bg-amber-500 text-black border-amber-600' :
-                                status === 'CLOSED' ? 'bg-gray-500 text-white border-gray-600' : ''
+                                status === 'ACTIVATED' ? 'bg-amber-500 text-black border-amber-600 hover:bg-amber-400' :
+                                status === 'CLOSED' ? 'bg-gray-500 text-white border-gray-600' :
+                                status === 'ACTIVE' ? 'bg-blue-500 text-white border-blue-600 hover:bg-blue-600' : ''
                             }`}>
                                 {status === 'SUCCEEDED' ? 'نجحت 🏆' :
                                  status === 'FAILED' ? 'فشلت ❌' :
                                  status === 'ACTIVATED' ? 'تفعلت ✅' :
-                                 status === 'CLOSED' ? 'مغلقة 🔒' : status}
+                                 status === 'CLOSED' ? 'مغلقة 🔒' :
+                                 status === 'ACTIVE' ? 'نشطة 🟢' : status}
                             </Badge>
                         )}
                     </CardTitle>
