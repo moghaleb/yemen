@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { createRecommendation, deleteRecommendation, updateRecommendationStatus } from "@/app/actions/admin";
 import { Badge } from "@/components/ui/badge";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ManageRecommendations() {
     const recommendations = await prisma.recommendation.findMany({
         orderBy: { createdAt: "desc" },
@@ -101,6 +103,7 @@ export default async function ManageRecommendations() {
                                     <form action={updateRecommendationStatus} className="flex items-center gap-2">
                                         <input type="hidden" name="id" value={rec.id} />
                                         <select
+                                            key={rec.id + rec.status}
                                             name="status"
                                             defaultValue={rec.status}
                                             className={`text-sm border rounded p-1 font-bold ${rec.status === 'SUCCEEDED' ? 'bg-green-100 text-green-800' :
