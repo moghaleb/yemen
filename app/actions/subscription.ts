@@ -3,11 +3,15 @@
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import fs from "fs/promises";
+import path from "path";
+import { existsSync } from "fs";
 
 export async function requestSubscription(data: FormData | string) {
     let tier: string;
     let senderName: string | null = null;
     let transferNumber: string | null = null;
+    let transferImage: string | null = null;
 
     if (typeof data === 'string') {
         tier = data;
@@ -15,6 +19,19 @@ export async function requestSubscription(data: FormData | string) {
         tier = data.get("tier") as string;
         senderName = (data.get("senderName") as string) || null;
         transferNumber = (data.get("transferNumber") as string) || null;
+
+        const imageFile = data.get("transferImageFile") as File;
+        if (imageFile && imageFile.size > 0 && imageFile.name !== 'undefined') {
+            const buffer = Buffer.from(await imageFile.arrayBuffer());
+            const filename = `${Date.now()}-receipt-${imageFile.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+            const uploadDir = path.join(process.cwd(), "public", "uploads", "receipts");
+            if (!existsSync(uploadDir)) {
+                await fs.mkdir(uploadDir, { recursive: true });
+            }
+            const filePath = path.join(uploadDir, filename);
+            await fs.writeFile(filePath, buffer);
+            transferImage = `/uploads/receipts/${filename}`;
+        }
     }
 
     const session = await auth();
@@ -49,6 +66,7 @@ export async function requestSubscription(data: FormData | string) {
             status: "PENDING",
             senderName,
             transferNumber,
+            transferImage,
         }
     });
 

@@ -31,6 +31,7 @@ model SubscriptionRequest {
   requestedTier String   // BASIC, VIP
   senderName    String?
   transferNumber String?
+  transferImage String?
   status        String   @default("PENDING") // PENDING, APPROVED, REJECTED
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt

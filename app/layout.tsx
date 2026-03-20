@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
+import WhatsAppWidget from "@/components/features/WhatsAppWidget";
 import { auth } from "@/auth";
 
 const tajawal = Tajawal({
@@ -32,6 +33,7 @@ export default async function RootLayout({
         <main className="relative flex min-h-screen flex-col pb-16 pt-16">
           {children}
         </main>
+        <WhatsAppWidget />
         <BottomNav />
       </body>
     </html>

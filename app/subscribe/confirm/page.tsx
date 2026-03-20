@@ -12,6 +12,7 @@ function ConfirmContent() {
     const tier = searchParams.get("tier");
     const [senderName, setSenderName] = useState("");
     const [transferNumber, setTransferNumber] = useState("");
+    const [transferImageFile, setTransferImageFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -31,6 +32,9 @@ function ConfirmContent() {
             formData.append("tier", tier || "");
             formData.append("senderName", senderName);
             formData.append("transferNumber", transferNumber);
+            if (transferImageFile) {
+                formData.append("transferImageFile", transferImageFile);
+            }
 
             const result = await requestSubscription(formData);
             if (result.success) {
@@ -134,6 +138,16 @@ function ConfirmContent() {
                                     placeholder="أدخل رقم العملية أو الحوالة"
                                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:ring-2 focus:ring-[#D4AF37]/50 transition-all text-xl font-mono"
                                     required
+                                />
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-sm font-medium text-slate-300 mr-2">صورة إيصال التحويل (اختياري)</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setTransferImageFile(e.target.files?.[0] || null)}
+                                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-3 outline-none focus:ring-2 focus:ring-[#D4AF37]/50 transition-all text-sm file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-[#D4AF37] file:text-black hover:file:bg-[#B8860B] cursor-pointer text-slate-300"
                                 />
                             </div>
 

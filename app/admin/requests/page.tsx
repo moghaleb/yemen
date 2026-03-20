@@ -50,6 +50,14 @@ export default async function AdminRequestsPage() {
                                     <div className="text-xs text-slate-600">
                                         <div>المرسل: {req.senderName || "---"}</div>
                                         <div className="font-mono mt-1">رقم: {req.transferNumber || "---"}</div>
+                                        {req.transferImage && (
+                                            <div className="mt-2">
+                                                <a href={req.transferImage} target="_blank" rel="noreferrer" className="text-blue-600 font-bold hover:underline flex items-center gap-1">
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                                    عرض الإيصال
+                                                </a>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 

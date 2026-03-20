@@ -99,9 +99,8 @@ export default function BookingPage() {
                                 <div className="space-y-2">
                                     <label className="text-sm font-medium">التاريخ والوقت المفضل (اختياري)</label>
                                     <input
-                                        type="text"
+                                        type="datetime-local"
                                         name="preferredDate"
-                                        placeholder="مثلاً: الثلاثاء القادم الساعة 4 مساءً"
                                         className="w-full p-3 rounded-lg border bg-background focus:ring-2 focus:ring-primary outline-none transition-all"
                                     />
                                 </div>

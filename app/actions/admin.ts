@@ -148,6 +148,24 @@ export async function deleteRecommendation(id: string) {
     revalidatePath("/");
 }
 
+export async function updateRecommendationStatus(formData: FormData) {
+    await requireAdmin();
+
+    const id = formData.get("id") as string;
+    const status = formData.get("status") as string;
+
+    if (!id || !status) return;
+
+    await prisma.recommendation.update({
+        where: { id },
+        data: { status }
+    });
+
+    revalidatePath("/admin/recommendations");
+    revalidatePath("/recommendations");
+    revalidatePath("/");
+}
+
 export async function createNews(formData: FormData) {
     await requireAdmin();
 

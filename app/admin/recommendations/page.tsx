@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { createRecommendation, deleteRecommendation } from "@/app/actions/admin";
+import { createRecommendation, deleteRecommendation, updateRecommendationStatus } from "@/app/actions/admin";
 import { Badge } from "@/components/ui/badge";
 
 export default async function ManageRecommendations() {
@@ -80,7 +80,7 @@ export default async function ManageRecommendations() {
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                         {recommendations.map((rec) => (
-                            <tr key={rec.id} className="hover:bg-gray-50">
+                            <tr key={rec.id} className="hover:bg-gray-50 group">
                                 <td className="whitespace-nowrap px-6 py-4">
                                     {rec.type === 'GOLD' ? 'ذهب 🟡' : 'أسهم 📈'}
                                 </td>
@@ -98,9 +98,26 @@ export default async function ManageRecommendations() {
                                     </span>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4">
-                                    <Badge variant={rec.status === "ACTIVE" ? "default" : "secondary"}>
-                                        {rec.status === "ACTIVE" ? "نشط" : "منتهي"}
-                                    </Badge>
+                                    <form action={updateRecommendationStatus} className="flex items-center gap-2">
+                                        <input type="hidden" name="id" value={rec.id} />
+                                        <select
+                                            name="status"
+                                            defaultValue={rec.status}
+                                            className={`text-sm border rounded p-1 font-bold ${rec.status === 'SUCCEEDED' ? 'bg-green-100 text-green-800' :
+                                                rec.status === 'FAILED' ? 'bg-red-100 text-red-800' :
+                                                    rec.status === 'ACTIVATED' ? 'bg-amber-100 text-amber-800' :
+                                                        rec.status === 'CLOSED' ? 'bg-gray-100 text-gray-800' :
+                                                            'bg-blue-100 text-blue-800'
+                                                }`}
+                                        >
+                                            <option value="ACTIVE" className="bg-white text-black">نشطة 🟢</option>
+                                            <option value="ACTIVATED" className="bg-white text-black">تفعلت ✅</option>
+                                            <option value="SUCCEEDED" className="bg-white text-black">نجحت 🏆</option>
+                                            <option value="FAILED" className="bg-white text-black">فشلت ❌</option>
+                                            <option value="CLOSED" className="bg-white text-black">مغلقة 🔒</option>
+                                        </select>
+                                        <button type="submit" className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded transition-colors hidden group-hover:block" title="حفظ الحالة">حفظ</button>
+                                    </form>
                                 </td>
                                 <td className="whitespace-nowrap px-6 py-4 text-left">
                                     <form action={deleteRecommendation.bind(null, rec.id)}>
