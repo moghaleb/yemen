@@ -27,35 +27,35 @@ export default function PwaInstallPrompt() {
             return;
         }
 
-        // Detect iOS (Safari doesn't support beforeinstallprompt)
+        // Detect OS (Safari doesn't support beforeinstallprompt)
         const userAgent = window.navigator.userAgent.toLowerCase();
         const isIosDevice = /iphone|ipad|ipod/.test(userAgent);
+        const isAndroid = /android/.test(userAgent);
         setIsIOS(isIosDevice);
 
-        if (isIosDevice) {
-            // Delay iOS prompt by 2 seconds for better UX
-            const timer = setTimeout(() => setShowInstallBanner(true), 2000);
-            return () => clearTimeout(timer);
+        if (isIosDevice || isAndroid) {
+            // Always show the banner after 1.5 seconds for mobile UX
+            // whether the native beforeinstallprompt fired or not!
+            const timer = setTimeout(() => setShowInstallBanner(true), 1500);
+            
+            // Still listen to the prompt to capture it if it fires natively
+            const handleBeforeInstallPrompt = (e: Event) => {
+                e.preventDefault();
+                setDeferredPrompt(e);
+            };
+            window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+            return () => {
+                clearTimeout(timer);
+                window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+            };
         }
-
-        // Handle Android/Chrome beforeinstallprompt
-        const handleBeforeInstallPrompt = (e: Event) => {
-            e.preventDefault(); // Prevent native mini-infobar
-            setDeferredPrompt(e);
-            setShowInstallBanner(true);
-        };
-
-        window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-
-        return () => {
-            window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
-        };
     }, []);
 
     const handleInstallClick = async () => {
         if (!deferredPrompt) {
-            // If iOS, maybe show instructions or do nothing for the button 
-            // the button should trigger native browser dialog if it exists
+            // If the browser blocked native install (e.g. no logo.png or no HTTPS)
+            alert("لإضافة التطبيق: اضغط على خيارات المتصفح ⠇ فوق ثم اختر (الإضافة للشاشة الرئيسية 📱) أو (Install App)");
             return;
         }
         
