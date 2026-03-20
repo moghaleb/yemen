@@ -6,6 +6,7 @@ import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
 import WhatsAppWidget from "@/components/features/WhatsAppWidget";
 import AutoRefresh from "@/components/features/AutoRefresh";
+import PwaInstallPrompt from "@/components/features/PwaInstallPrompt";
 import { auth } from "@/auth";
 
 const tajawal = Tajawal({
@@ -35,6 +36,7 @@ export default async function RootLayout({
           {children}
         </main>
         <WhatsAppWidget />
+        <PwaInstallPrompt />
         <AutoRefresh intervalMs={10000} />
         <BottomNav />
       </body>
