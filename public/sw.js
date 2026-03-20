@@ -3,8 +3,7 @@ self.addEventListener('push', function (event) {
         const data = event.data.json()
         const options = {
             body: data.body,
-            icon: '/icon-192x192.png',
-            badge: '/badge.png',
+            icon: '/logo.png',
             vibrate: [100, 50, 100],
             data: {
                 dateOfArrival: Date.now(),
@@ -23,3 +22,11 @@ self.addEventListener('notificationclick', function (event) {
         clients.openWindow(event.notification.data.url)
     )
 })
+
+self.addEventListener("install", () => {
+    self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(self.clients.claim());
+});
