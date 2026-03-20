@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Share, PlusSquare } from "lucide-react";
+import { Share, PlusSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PwaInstallPrompt() {
@@ -33,8 +33,8 @@ export default function PwaInstallPrompt() {
         setIsIOS(isIosDevice);
 
         if (isIosDevice) {
-            // Delay iOS prompt by 3 seconds for better UX
-            const timer = setTimeout(() => setShowInstallBanner(true), 3000);
+            // Delay iOS prompt by 2 seconds for better UX
+            const timer = setTimeout(() => setShowInstallBanner(true), 2000);
             return () => clearTimeout(timer);
         }
 
@@ -53,7 +53,11 @@ export default function PwaInstallPrompt() {
     }, []);
 
     const handleInstallClick = async () => {
-        if (!deferredPrompt) return;
+        if (!deferredPrompt) {
+            // If iOS, maybe show instructions or do nothing for the button 
+            // the button should trigger native browser dialog if it exists
+            return;
+        }
         
         // Show native prompt
         deferredPrompt.prompt();
@@ -74,52 +78,70 @@ export default function PwaInstallPrompt() {
     if (!showInstallBanner || isStandalone) return null;
 
     return (
-        <div className="fixed bottom-20 left-4 right-4 md:left-auto md:right-8 md:bottom-8 md:w-96 z-50 animate-in slide-in-from-bottom-5 fade-in duration-500">
-            <div className="bg-[#111] border border-[#D4AF37]/30 shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-2xl p-4 relative overflow-hidden">
-                {/* Decorative background glow */}
-                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#D4AF37]/10 blur-2xl rounded-full" />
+        <div className="fixed bottom-0 left-0 right-0 z-[100] animate-in slide-in-from-bottom-5 duration-500">
+            {/* The white card container matching the image */}
+            <div className="bg-white rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.15)] p-5 pb-8 relative w-full max-w-md mx-auto" dir="rtl">
                 
-                <button 
-                    onClick={handleDismiss}
-                    className="absolute top-2 left-2 p-1 text-gray-400 hover:text-white rounded-full hover:bg-white/10 transition-colors"
-                >
-                    <X className="w-4 h-4" />
-                </button>
-
-                <div className="flex items-start gap-4 pr-6">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D4AF37] to-[#B8860B] flex items-center justify-center shrink-0 shadow-lg font-black text-black">
-                        GR
-                    </div>
-                    
-                    <div className="flex-1 pt-1">
-                        <h3 className="font-bold text-white text-sm">تثبيت التطبيق</h3>
-                        <p className="text-xs text-gray-400 mt-1 leading-relaxed">
-                            أضف {`رادار الذهب`} للشاشة الرئيسية للوصول السريع والإشعارات الفورية!
+                <div className="flex items-center justify-between mb-6">
+                    {/* Text Section (Right side in RTL) */}
+                    <div className="flex-1 pl-4">
+                        <h3 className="font-bold text-gray-900 text-lg sm:text-xl mb-1">
+                            حمّل تطبيق رادار الذهب
+                        </h3>
+                        <p className="text-sm text-gray-500 leading-relaxed">
+                            للحصول على وصول سريع للتوصيات وتجربة أفضل!
                         </p>
-                        
-                        <div className="mt-3">
-                            {isIOS ? (
-                                <div className="bg-white/5 border border-white/10 rounded-lg p-3 text-xs text-gray-300 flex flex-col gap-2">
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-5 h-5 flex items-center justify-center bg-white/10 rounded-full text-[10px]">1</span>
-                                        <span>اضغط على زر المشاركة <Share className="w-3 h-3 inline mx-1" /></span>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="w-5 h-5 flex items-center justify-center bg-white/10 rounded-full text-[10px]">2</span>
-                                        <span>اختر "إضافة للشاشة الرئيسية" <PlusSquare className="w-3 h-3 inline mx-1" /></span>
-                                    </div>
-                                </div>
-                            ) : (
-                                <Button 
-                                    onClick={handleInstallClick}
-                                    className="w-full h-8 bg-[#D4AF37] hover:bg-[#b08d2b] text-black font-bold text-xs"
-                                >
-                                    تثبيت الآن
-                                </Button>
-                            )}
-                        </div>
+                    </div>
+
+                    {/* Logo Section (Left side in RTL) */}
+                    <div className="w-16 h-16 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center shrink-0 overflow-hidden relative">
+                        {/* We use a placeholder text if no image, but try to use logo.png if it exists */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37] to-[#B8860B] opacity-10" />
+                        <span className="text-[#D4AF37] font-black text-xl z-10">GR</span>
+                        {/* 
+                          To use your actual logo:
+                          <img src="/logo.png" alt="Logo" className="w-full h-full object-contain p-2 relative z-10" />
+                        */}
                     </div>
                 </div>
+
+                {isIOS ? (
+                    <div className="bg-gray-50 border border-gray-100 rounded-xl p-4 text-sm text-gray-600 flex flex-col gap-3 mb-4">
+                        <div className="flex items-center gap-3">
+                            <span className="w-6 h-6 flex items-center justify-center bg-white shadow-sm border border-gray-100 rounded-full text-xs font-bold text-gray-800">1</span>
+                            <span>اضغط على زر المشاركة <Share className="w-4 h-4 inline mx-1 text-gray-400" /> أسفل المتصفح</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <span className="w-6 h-6 flex items-center justify-center bg-white shadow-sm border border-gray-100 rounded-full text-xs font-bold text-gray-800">2</span>
+                            <span>اختر "إضافة للشاشة الرئيسية" <PlusSquare className="w-4 h-4 inline mx-1 text-gray-400" /></span>
+                        </div>
+                        <div className="flex gap-3 mt-2">
+                             <Button 
+                                onClick={handleDismiss}
+                                variant="outline"
+                                className="flex-1 h-12 bg-gray-100 border-0 hover:bg-gray-200 text-gray-600 font-bold text-base rounded-xl"
+                            >
+                                إغلاق
+                            </Button>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-3">
+                        <Button 
+                            onClick={handleInstallClick}
+                            className="flex-1 h-12 bg-[#D4AF37] hover:bg-[#b08d2b] text-white font-bold text-base rounded-xl border-0 shadow-lg shadow-[#D4AF37]/30"
+                        >
+                            تثبيت التطبيق
+                        </Button>
+                        <Button 
+                            onClick={handleDismiss}
+                            variant="outline"
+                            className="flex-1 h-12 bg-gray-100 border-0 hover:bg-gray-200 text-gray-600 font-bold text-base rounded-xl"
+                        >
+                            لاحقاً
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     );
