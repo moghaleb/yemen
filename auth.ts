@@ -73,7 +73,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 try {
                     const freshUser = await prisma.user.findUnique({
                         where: { email: session.user.email },
-                        select: { sessionVersion: true, role: true }
+                        select: { id: true, sessionVersion: true, role: true }
                     });
 
                     // @ts-ignore
@@ -88,6 +88,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     }
 
                     session.user.role = freshUser.role;
+                    session.user.id = freshUser.id;
                 } catch (error) {
                     console.error("Session verification failed:", error);
                 }

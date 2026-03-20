@@ -22,6 +22,11 @@ export default function NotificationPermission() {
 
             const sub = await registration.pushManager.getSubscription();
             setSubscription(sub);
+            if (sub) {
+                // Background sync the subscription with the server just in case
+                // it was missed previously due to auth errors.
+                saveSubscription(sub).catch(() => {});
+            }
         } catch (error) {
             console.error('Service Worker registration failed:', error);
         }
