@@ -24,7 +24,7 @@ export default function Header({ user }: HeaderProps) {
                 <Link href="/" className="flex items-center gap-3 group">
                     <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-[#D4AF37] to-[#000000] p-[1px] shadow-[0_0_20px_rgba(212,175,55,0.4)] group-hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] transition-all duration-300">
                         <img
-                            src="/logo.png"
+                            src="/logo-radar.png"
                             alt="Golden Radar Logo"
                             className="w-full h-full object-cover rounded-full"
                             onError={(e) => {

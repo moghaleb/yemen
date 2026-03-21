@@ -95,7 +95,7 @@ export default function PwaInstallPrompt() {
 
                     {/* Logo Section (Left side in RTL) */}
                     <div className="w-16 h-16 rounded-2xl bg-black border border-gray-800 shadow-lg flex items-center justify-center shrink-0 overflow-hidden relative">
-                        <img src="/logo.png" alt="رادار الذهب" className="w-full h-full object-cover" />
+                        <img src="/logo-radar.png" alt="رادار الذهب" className="w-full h-full object-cover" />
                     </div>
                 </div>
 
