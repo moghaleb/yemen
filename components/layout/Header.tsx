@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Search, User, MessageCircle } from "lucide-react";
+import { Search, User } from "lucide-react";
 import { useState } from "react";
 import NotificationPermission from "@/components/features/NotificationPermission";
 
@@ -37,17 +37,12 @@ export default function Header({ user }: HeaderProps) {
                         <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F7E7CE] to-[#D4AF37] bg-[length:200%_auto] animate-shine leading-none">
                             رادار الذهب
                         </span>
-                        <span className="text-[10px] text-muted-foreground tracking-wider uppercase">Golden Radar</span>
+                        <span className="text-[10px] text-muted-foreground tracking-wider uppercase"></span>
                     </div>
                 </Link>
 
                 {/* Actions */}
                 <div className="flex items-center gap-2 md:gap-3">
-                    <Link href="https://wa.me/967733338633" target="_blank" rel="noopener noreferrer" title="تواصل معنا عبر واتساب">
-                        <Button variant="ghost" size="icon" className="text-green-500 hover:text-green-400 hover:bg-green-500/10">
-                            <MessageCircle className="w-5 h-5" />
-                        </Button>
-                    </Link>
                     <Button variant="ghost" size="icon" className="text-foreground/70 hover:text-primary">
                         <Search className="w-5 h-5" />
                     </Button>
