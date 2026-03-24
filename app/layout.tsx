@@ -7,6 +7,7 @@ import BottomNav from "@/components/layout/BottomNav";
 import WhatsAppWidget from "@/components/features/WhatsAppWidget";
 import AutoRefresh from "@/components/features/AutoRefresh";
 import PwaInstallPrompt from "@/components/features/PwaInstallPrompt";
+import TradingViewTicker from "@/components/features/TradingViewTicker";
 import { auth } from "@/auth";
 
 const tajawal = Tajawal({
@@ -33,6 +34,7 @@ export default async function RootLayout({
       <body className={cn(tajawal.className, "min-h-screen bg-background font-sans antialiased")}>
         <Header user={session?.user} />
         <main className="relative flex min-h-screen flex-col pb-16 pt-16">
+          <TradingViewTicker />
           {children}
         </main>
         <WhatsAppWidget />
