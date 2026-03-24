@@ -8,20 +8,23 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String?
-  email     String   @unique
-  password  String
-  image     String?
-  role              String   @default("FREE") // ADMIN, USER (Consider deprecating role for tier if redundant, but keep for Admin check)
-  subscriptionTier  String   @default("FREE") // FREE, BASIC, VIP
-  subscriptionExpiry DateTime?
-  requests          SubscriptionRequest[]
-  consultations     ConsultationRequest[]
-  pushSubscriptions PushSubscription[]
-  sessionVersion    Int      @default(0)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id                  String   @id @default(uuid())
+  name                String?
+  email               String   @unique
+  password            String
+  image               String?
+  role                String   @default("FREE") // ADMIN, USER
+  subscriptionTier    String   @default("FREE") // FREE, BASIC, VIP
+  subscriptionExpiry  DateTime?
+  emailVerified       DateTime?
+  otpCode             String?
+  otpExpires          DateTime?
+  requests            SubscriptionRequest[]
+  consultations       ConsultationRequest[]
+  pushSubscriptions   PushSubscription[]
+  sessionVersion      Int      @default(0) // Used for single-device restriction
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
 
 model SubscriptionRequest {

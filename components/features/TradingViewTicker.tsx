@@ -26,10 +26,6 @@ export default function TradingViewTicker() {
           title: "الفضة (Silver)",
         },
         {
-          proName: "FX_IDC:EURUSD",
-          title: "يورو/دولار",
-        },
-        {
           proName: "BITSTAMP:BTCUSD",
           title: "بيتكوين",
         },
@@ -50,12 +46,12 @@ export default function TradingViewTicker() {
 
   return (
     <div className="w-full border-b border-white/10 bg-[#131722] z-40 relative">
-        <div 
-        className="tradingview-widget-container" 
+      <div
+        className="tradingview-widget-container"
         ref={containerRef}
-        >
+      >
         <div className="tradingview-widget-container__widget"></div>
-        </div>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
-import { signIn } from '@/auth';
+import { sendVerificationEmail } from '@/lib/email';
 
 export async function registerUser(prevState: any, formData: FormData) {
     const name = (formData.get('name') as string).trim();
@@ -30,19 +30,24 @@ export async function registerUser(prevState: any, formData: FormData) {
     // Ideally we should add 'name' to the User model, but for now we'll update the schema or just ignore name.
     // Let's stick to the existing schema first to avoid migration issues immediately, or safer: update schema.
 
+    // Generate 6-digit OTP
+    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
     await prisma.user.create({
         data: {
             name,
             email,
             password: hashedPassword,
-            role: 'FREE',
+            role: 'USER',
+            otpCode,
+            otpExpires
         },
     });
 
-    // Auto-login after registration
-    await signIn('credentials', {
-        email,
-        password,
-        redirectTo: '/'
-    });
+    // Send verification email
+    await sendVerificationEmail(email, otpCode);
+
+    // Redirect to verification page
+    redirect(`/verify-email?email=${encodeURIComponent(email)}`);
 }
