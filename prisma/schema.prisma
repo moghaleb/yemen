@@ -20,6 +20,8 @@ model User {
   emailVerified       DateTime?
   otpCode             String?
   otpExpires          DateTime?
+  resetToken          String?   @unique
+  resetTokenExpires   DateTime?
   requests            SubscriptionRequest[]
   consultations       ConsultationRequest[]
   pushSubscriptions   PushSubscription[]
