@@ -43,7 +43,7 @@ export async function executePasswordReset(prevState: any, formData: FormData) {
     const password = formData.get('password') as string;
 
     if (!token || !password) {
-        return { message: 'البيانات غير مكتملة', isError: true };
+        return { message: 'البيانات غير مكتملة', isError: true, isSuccess: false };
     }
 
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
@@ -58,7 +58,7 @@ export async function executePasswordReset(prevState: any, formData: FormData) {
     });
 
     if (!user) {
-        return { message: 'الرابط غير صالح أو منتهي الصلاحية', isError: true };
+        return { message: 'الرابط غير صالح أو منتهي الصلاحية', isError: true, isSuccess: false };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -72,5 +72,5 @@ export async function executePasswordReset(prevState: any, formData: FormData) {
         },
     });
 
-    return { message: 'تم إعادة تعيين كلمة المرور بنجاح!', isSuccess: true };
+    return { message: 'تم إعادة تعيين كلمة المرور بنجاح!', isError: false, isSuccess: true };
 }
