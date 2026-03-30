@@ -61,6 +61,14 @@ export default function LoginPage() {
                         </div>
                     </div>
 
+                    <div className="flex items-center justify-between">
+                        <div className="text-sm">
+                            <Link href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                نسيت كلمة المرور؟
+                            </Link>
+                        </div>
+                    </div>
+
                     <div
                         className="flex h-8 items-end space-x-1"
                         aria-live="polite"
