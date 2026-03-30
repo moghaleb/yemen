@@ -17,8 +17,9 @@ export default async function AdminUsersPage() {
 
             <div className="rounded-lg border bg-white shadow">
                 {/* Header */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 border-b bg-gray-50 text-xs font-semibold uppercase text-gray-700">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 border-b bg-gray-50 text-xs font-semibold uppercase text-gray-700">
                     <div>الاسم / البريد</div>
+                    <div>الهاتف</div>
                     <div>نوع الاشتراك</div>
                     <div>تاريخ الانتهاء</div>
                     <div className="text-center">إجراءات</div>
@@ -27,13 +28,18 @@ export default async function AdminUsersPage() {
                 {/* Body */}
                 <div className="divide-y">
                     {users.map((user) => (
-                        <form key={user.id} action={updateUserSubscription} className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 items-center hover:bg-gray-50 transition-colors">
+                            <form key={user.id} action={updateUserSubscription} className="grid grid-cols-1 md:grid-cols-5 gap-4 p-4 items-center hover:bg-gray-50 transition-colors">
                             <input type="hidden" name="userId" value={user.id} />
 
                             {/* User Info */}
                             <div className="overflow-hidden">
                                 <div className="font-medium text-gray-900 truncate">{user.name || "بدون اسم"}</div>
                                 <div className="text-xs text-gray-500 truncate" title={user.email}>{user.email}</div>
+                            </div>
+
+                            {/* Phone Number */}
+                            <div className="text-sm text-gray-600 truncate" dir="ltr">
+                                {user.phone || "-"}
                             </div>
 
                             {/* Subscription Tier */}
