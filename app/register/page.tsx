@@ -58,6 +58,17 @@ export default function RegisterPage() {
                             />
                         </div>
                         <div className="mb-4">
+                            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                            <input
+                                id="phone"
+                                name="phone"
+                                type="tel"
+                                required
+                                className="relative block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder="رقم الهاتف"
+                            />
+                        </div>
+                        <div className="mb-4">
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label>
                             <input
                                 id="password"

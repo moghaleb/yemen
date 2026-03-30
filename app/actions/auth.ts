@@ -9,6 +9,7 @@ export async function registerUser(prevState: any, formData: FormData) {
     const name = (formData.get('name') as string).trim();
     const email = (formData.get('email') as string).trim();
     const password = (formData.get('password') as string).trim();
+    const phone = ((formData.get('phone') as string) || '').trim();
 
     if (!email || !password) {
         return { message: 'يجب ملء جميع الحقول' };
@@ -38,6 +39,7 @@ export async function registerUser(prevState: any, formData: FormData) {
         data: {
             name,
             email,
+            phone,
             password: hashedPassword,
             role: 'USER',
             otpCode,
