@@ -75,6 +75,7 @@ export default async function RecommendationsPage() {
                                     date={formatTime(rec.createdAt)}
                                     status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
+                                    isLoggedIn={!!session?.user}
                                 />
                             ))
                         ) : (
@@ -103,6 +104,7 @@ export default async function RecommendationsPage() {
                                     date={formatTime(rec.createdAt)}
                                     status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
+                                    isLoggedIn={!!session?.user}
                                 />
                             ))
                         ) : (

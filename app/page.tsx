@@ -187,6 +187,7 @@ export default async function Home() {
                 date={`اليوم، ${formatTime(latestRec.createdAt)}`}
                 status={latestRec.status}
                 isLocked={recIsLocked}
+                isLoggedIn={!!session?.user}
               />
             ) : (
               <div className="h-40 glass-card rounded-2xl flex items-center justify-center text-muted-foreground p-6 text-center">

@@ -14,6 +14,7 @@ interface RecommendationCardProps {
     date: string;
     status?: string;
     isLocked?: boolean;
+    isLoggedIn?: boolean;
     onShare?: () => void;
 }
 
@@ -30,6 +31,7 @@ export default function RecommendationCard({
     status,
     onShare,
     isLocked = false,
+    isLoggedIn = false,
 }: RecommendationCardProps) {
 
     const typeColor =
@@ -55,7 +57,7 @@ export default function RecommendationCard({
                     <p className="text-sm text-gray-400 mb-4 max-w-[200px]">
                         هذه التوصية متاحة للمشتركين فقط. رقي حسابك للوصول.
                     </p>
-                    <a href="/account" className="px-4 py-2 bg-[#D4AF37] hover:bg-[#b08d2b] text-black font-bold rounded-lg transition-all text-sm shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                    <a href={isLoggedIn ? "/#subscriptions" : "/register"} className="px-4 py-2 bg-[#D4AF37] hover:bg-[#b08d2b] text-black font-bold rounded-lg transition-all text-sm shadow-[0_0_15px_rgba(212,175,55,0.3)]">
                         ترقية الاشتراك
                     </a>
                 </div>

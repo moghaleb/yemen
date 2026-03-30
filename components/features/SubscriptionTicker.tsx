@@ -32,7 +32,7 @@ export default function SubscriptionTicker() {
     };
 
     return (
-        <div className="relative w-full py-6 bg-background/50 backdrop-blur-sm border-y border-white/5">
+        <div id="subscriptions" className="relative w-full py-6 bg-background/50 backdrop-blur-sm border-y border-white/5 scroll-mt-24">
             <div className="text-center mb-6">
                 <h2 className="text-2xl font-bold inline-block text-white dark:text-white border-b-2 border-amber-500 pb-2">اشترك الآن</h2>                <p className="text-sm text-muted-foreground mt-2">اختر الباقة المناسبة للوصول إلى كامل التحليلات والتوصيات</p>
             </div>

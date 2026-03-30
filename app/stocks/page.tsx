@@ -145,6 +145,7 @@ export default async function StocksDashboard() {
                                     // Gating Added Here
                                     status={rec.status}
                                     isLocked={!hasAccess(userTier, rec.minTier)}
+                                    isLoggedIn={!!session?.user}
                                 />
                             ))
                         ) : (
