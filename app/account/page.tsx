@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, CreditCard, Settings, Crown } from "lucide-react";
+import { User, CreditCard, Settings, Crown, Info } from "lucide-react";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -116,11 +116,21 @@ export default async function AccountPage() {
                         { label: "المعلومات الشخصية", icon: User },
                         { label: "طرق الدفع", icon: CreditCard },
                         { label: "الإعدادات", icon: Settings },
+                        { label: "من نحن", icon: Info, href: "/about" },
                     ].map((item, i) => (
-                        <Button key={i} variant="glass" className="w-full justify-start h-14 text-base font-normal text-foreground group">
-                            <item.icon className="w-5 h-5 ml-3 text-muted-foreground group-hover:text-primary transition-colors" />
-                            {item.label}
-                        </Button>
+                        item.href ? (
+                            <Link key={i} href={item.href} className="block w-full">
+                                <Button variant="glass" className="w-full justify-start h-14 text-base font-normal text-foreground group">
+                                    <item.icon className="w-5 h-5 ml-3 text-muted-foreground group-hover:text-primary transition-colors" />
+                                    {item.label}
+                                </Button>
+                            </Link>
+                        ) : (
+                            <Button key={i} variant="glass" className="w-full justify-start h-14 text-base font-normal text-foreground group">
+                                <item.icon className="w-5 h-5 ml-3 text-muted-foreground group-hover:text-primary transition-colors" />
+                                {item.label}
+                            </Button>
+                        )
                     ))}
 
                     <SignOutButton />
