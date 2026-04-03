@@ -2,6 +2,8 @@
 
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 export async function verifyOTP(prevState: any, formData: FormData) {
     const email = formData.get('email') as string;
@@ -33,22 +35,23 @@ export async function verifyOTP(prevState: any, formData: FormData) {
         return { message: 'رمز التحقق منتهي الصلاحية. يرجى طلب رمز جديد', success: false };
     }
 
-    if (user.otpCode !== code.trim()) {
-        return { message: 'رمز التحقق غير صحيح', success: false };
+    // Delegate verification and automatic login to NextAuth
+    try {
+        await signIn('credentials', {
+            email,
+            otpCode: code,
+            redirect: false
+        });
+    } catch (error: any) {
+        if (error instanceof AuthError || error.type === 'CredentialsSignin') {
+            return { message: 'رمز التحقق غير صحيح أو منتهي الصلاحية', success: false };
+        }
+        // signIn throws NEXT_REDIRECT on success, let it happen if it does
+        throw error;
     }
 
-    // Success! Update user
-    await prisma.user.update({
-        where: { id: user.id },
-        data: {
-            emailVerified: new Date(),
-            otpCode: null,
-            otpExpires: null
-        }
-    });
-
-    // Send successful redirect
-    redirect('/login?verified=true');
+    // Fallback redirect if `redirect: false` actually succeeds (it usually throws NEXT_REDIRECT anyway)
+    redirect('/');
 }
 
 export async function resendOTP(email: string) {

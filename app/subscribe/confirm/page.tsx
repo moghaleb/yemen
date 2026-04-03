@@ -110,10 +110,23 @@ function ConfirmContent() {
                     {/* Payment Form */}
                     <div className="md:col-span-3 space-y-8">
                         <section className="space-y-4">
-                            <h2 className="text-2xl font-bold">بيانات التحويل</h2>
-                            <p className="text-slate-400 line-height-relaxed">
-                                يرجى إدخال البيانات الموجودة في إيصال التحويل لضمان سرعة تفعيل حسابك.
+                            <h2 className="text-2xl font-bold">تفاصيل الدفع</h2>
+                            <p className="text-slate-400 leading-relaxed">
+                                يرجى إرسال قيمة الاشتراك إلى الحساب التالي، ثم إدخال بيانات الإيصال أدناه لضمان سرعة التفعيل.
                             </p>
+                            
+                            {/* Transfer Info Block */}
+                            <div className="bg-gradient-to-br from-[#D4AF37]/10 to-amber-900/20 border border-[#D4AF37]/30 rounded-2xl p-6 relative overflow-hidden">
+                                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#D4AF37]/20 blur-2xl rounded-full" />
+                                <h3 className="text-lg font-bold text-[#D4AF37] mb-3">بيانات التحويل المعتمدة:</h3>
+                                <div className="space-y-2 text-white/90 text-lg">
+                                    <p>حوالة مالية لأمر:</p>
+                                    <p className="text-xl font-bold text-white drop-shadow-md">بروكر اون لاين لخدمات التسويق الالكتروني</p>
+                                    <div className="mt-2 text-2xl font-black text-[#D4AF37] tracking-widest dir-ltr text-right pr-4 border-r-4 border-[#D4AF37]">
+                                        733338633
+                                    </div>
+                                </div>
+                            </div>
                         </section>
 
                         <form onSubmit={handleSubmit} className="space-y-6">

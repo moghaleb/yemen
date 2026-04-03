@@ -22,6 +22,39 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             async authorize(credentials) {
                 const email = (credentials?.email as string)?.trim();
                 const password = (credentials?.password as string)?.trim();
+                const otpCode = (credentials?.otpCode as string)?.trim();
+
+                if (!email) return null;
+
+                const user = await getUser(email);
+                if (!user) {
+                    console.log('User not found in DB');
+                    return null;
+                }
+
+                // OTP Auto-login setup
+                if (otpCode) {
+                    if (user.otpCode === otpCode && user.otpExpires && new Date() < user.otpExpires) {
+                        try {
+                            const updatedUser = await prisma.user.update({
+                                where: { id: user.id },
+                                data: {
+                                    emailVerified: new Date(),
+                                    otpCode: null,
+                                    otpExpires: null,
+                                    sessionVersion: { increment: 1 }
+                                }
+                            });
+                            return updatedUser;
+                        } catch (e) {
+                            console.error('Failed OTP auto-login', e);
+                            return null;
+                        }
+                    } else {
+                        console.log('Invalid OTP auto-login attempt');
+                        return null;
+                    }
+                }
 
                 const parsedCredentials = z
                     .object({ email: z.string().min(3), password: z.string().min(5) })
@@ -29,12 +62,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                 if (parsedCredentials.success) {
                     const { email, password } = parsedCredentials.data;
-                    console.log('Attempting login for:', email);
-                    const user = await getUser(email);
-                    if (!user) {
-                        console.log('User not found in DB');
-                        return null;
-                    }
                     console.log('User found:', user.email, 'Role:', user.role);
                     const passwordsMatch = await bcrypt.compare(password, user.password);
                     console.log('Password match:', passwordsMatch);
