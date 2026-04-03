@@ -82,6 +82,19 @@ export default function RegisterPage() {
                         </div>
                     </div>
 
+                    <div className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <input
+                            id="terms"
+                            name="terms"
+                            type="checkbox"
+                            required
+                            className="mt-1 w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-600 cursor-pointer"
+                        />
+                        <label htmlFor="terms" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
+                            أقر وأوافق على <Link href="/terms" className="text-indigo-600 hover:underline font-bold animate-pulse" target="_blank">سياسات الموقع وإخلاء المسؤولية</Link> وأتحمل كامل المسؤولية عن قراراتي المالية.
+                        </label>
+                    </div>
+
                     {state?.message && (
                         <p className="text-sm text-red-500 text-center">{state.message}</p>
                     )}
