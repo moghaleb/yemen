@@ -31,7 +31,7 @@ webpush.setVapidDetails(
 async function sendNotificationToAll(payload: any, minTier?: string) {
     try {
         let subscriptions;
-        
+
         if (minTier && minTier !== "FREE") {
             // If it's a premium notification, we might still want to notify everyone 
             // but the payload could indicate it's premium.
@@ -105,7 +105,7 @@ export async function createRecommendation(formData: FormData) {
 
         const filePath = path.join(uploadDir, filename);
         await writeFile(filePath, buffer);
-        
+
         imageUrl = `/uploads/${filename}`;
     }
 
@@ -245,7 +245,7 @@ export async function createEducationalContent(formData: FormData) {
 
         const filePath = path.join(uploadDir, filename);
         await writeFile(filePath, buffer);
-        
+
         imageUrl = `/uploads/${filename}`;
     }
 
